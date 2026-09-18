@@ -2974,7 +2974,34 @@
     // ==================================================================
     // INITIALISATION
     // ==================================================================
+    async function loadCentralDatabase() {
+      try {
+        const res = await fetch('./players.json?v=' + Date.now());
+        if (res.ok) {
+          const centralPlayers = await res.json();
+          if (Array.isArray(centralPlayers) && centralPlayers.length > 0) {
+            // Si le visiteur arrive ou si l'admin n'a pas de brouillon non enregistré
+            if (!isAdmin || !sessionStorage.getItem('five_admin_unsaved')) {
+              players = centralPlayers;
+              savePlayersData();
+              renderPitchSlots();
+              renderBench();
+              if (document.getElementById('viewPlayers') && document.getElementById('viewPlayers').classList.contains('active')) {
+                renderPlayersAdminView();
+              }
+              if (document.getElementById('viewRate') && document.getElementById('viewRate').classList.contains('active')) {
+                renderCommunityRateView();
+              }
+            }
+          }
+        }
+      } catch(e) {
+        console.warn('Chargement base centrale:', e);
+      }
+    }
+
     loadFromUrlHash();
+    loadCentralDatabase();
     updateAdminUI();
     initPitchSlotsEvents();
     renderBench();
