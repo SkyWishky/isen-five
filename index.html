@@ -1671,7 +1671,7 @@
       </p>
 
       <div class="form-group" style="margin-bottom: 18px;">
-        <input type="password" class="input-field" id="adminPasswordInput" placeholder="Mot de passe (par défaut : five2026)">
+        <input type="password" class="input-field" id="adminPasswordInput" placeholder="Mot de passe administrateur">
         <div id="adminErrorMsg" style="color: var(--team-b); font-size: 0.8rem; text-align: left; display: none; margin-top: 4px;">
           Mot de passe incorrect. Réessayez !
         </div>
@@ -1816,11 +1816,20 @@
       document.getElementById('adminPasswordInput').value = '';
     }
 
-    function submitAdminLogin() {
-      const pwd = document.getElementById('adminPasswordInput').value.trim();
-      const validPwd = localStorage.getItem('five_admin_pwd') || 'five2026';
+    // Hash sécurisé SHA-256 (aucun mot de passe en clair dans le code)
+    const ADMIN_HASH = '3895ea584173dbaa62d324f369a9631124ae39d078d9c7c30fbbd5e11de7df96';
 
-      if (pwd === validPwd) {
+    async function hashString(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function submitAdminLogin() {
+      const pwd = document.getElementById('adminPasswordInput').value.trim();
+      const inputHash = await hashString(pwd);
+
+      if (inputHash === ADMIN_HASH) {
         isAdmin = true;
         sessionStorage.setItem('five_is_admin', 'true');
         toggleAdminAuthModal();
