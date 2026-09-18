@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LE FIVE • Team Manager & Pronos</title>
+  <title>ISEN-Five • Team Manager & Pronos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
@@ -88,7 +88,7 @@
     .brand-title {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       letter-spacing: -0.5px;
       background: linear-gradient(135deg, #fff 40%, var(--pitch-green) 100%);
       -webkit-background-clip: text;
@@ -417,7 +417,7 @@
     /* Pitch Grid Layout */
     .matchup-grid {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 350px;
       gap: 24px;
       align-items: start;
     }
@@ -428,9 +428,7 @@
       }
     }
 
-    /* ===================================================
-       SYNTHETIC 5-A-SIDE PITCH
-       =================================================== */
+    /* Synthetic 5-a-side pitch */
     .pitch-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -639,12 +637,11 @@
       box-shadow: 0 0 25px var(--team-b-glow);
     }
 
-    .slot-pos-badge {
+    .slot-number-badge {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .slot-empty-icon {
@@ -737,9 +734,7 @@
       opacity: 1;
     }
 
-    /* ===================================================
-       BENCH / ROSTER PANEL
-       =================================================== */
+    /* Roster Panel */
     .roster-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -827,8 +822,8 @@
 
     .player-avatar-wrap {
       position: relative;
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       overflow: hidden;
       border: 2px solid var(--pitch-green);
@@ -839,6 +834,18 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .avatar-edit-badge {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 0.65rem;
+      text-align: center;
+      padding: 2px 0;
     }
 
     .player-info h4 {
@@ -856,21 +863,23 @@
       margin-top: 2px;
     }
 
-    .pos-tag {
-      font-size: 0.68rem;
-      font-weight: 800;
-      font-family: 'Space Grotesk', sans-serif;
-      padding: 1px 5px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--gold);
-    }
-
     .rank-tag {
       font-size: 0.75rem;
       font-weight: 800;
       font-family: 'Space Grotesk', sans-serif;
       color: var(--pitch-green);
+    }
+
+    .player-stats-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #cfd6e6;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 7px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .player-card-right {
@@ -1138,7 +1147,7 @@
     }
 
     /* ===================================================
-       4. GESTION DES JOUEURS & NOTES (ADMIN)
+       4. GESTION DES JOUEURS & STATS (ADMIN)
        =================================================== */
     .players-admin-grid {
       display: grid;
@@ -1185,6 +1194,64 @@
       accent-color: var(--pitch-green);
       cursor: pointer;
       height: 8px;
+    }
+
+    /* Counter controls for Goals and Saves */
+    .stat-counter-box {
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .counter-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .counter-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .counter-btn:hover:not(:disabled) {
+      background: var(--pitch-green);
+      color: #000;
+      border-color: var(--pitch-green);
+    }
+
+    .counter-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .counter-input {
+      flex: 1;
+      text-align: center;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 4px 6px;
     }
 
     .locked-overlay {
@@ -1292,8 +1359,8 @@
       <div class="brand">
         <div class="brand-logo">⚽</div>
         <div>
-          <div class="brand-title">LE FIVE • ARENA</div>
-          <div style="font-size: 0.78rem; color: var(--text-muted);">Gestion 5v5, Équilibrage & Notes de 1 à 10</div>
+          <div class="brand-title">ISEN-Five</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">Team Manager, Buts, Arrêts & Notes de 1 à 10</div>
         </div>
       </div>
 
@@ -1427,49 +1494,49 @@
               <span class="pitch-half-label">Équipe B (Noire)</span>
             </div>
 
-            <!-- Slots Layer (Coordinates in percentage) -->
+            <!-- Slots Layer without positions (1 à 5) -->
             <div class="pitch-slots-layer" id="pitchSlotsContainer">
               <!-- Team A Slots -->
-              <div class="pitch-slot team-a-slot" style="left: 10%; top: 50%;" data-team="A" data-slot="0" data-pos="GK">
-                <span class="slot-pos-badge">GK</span>
+              <div class="pitch-slot team-a-slot" style="left: 10%; top: 50%;" data-team="A" data-slot="0">
+                <span class="slot-number-badge">1</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-a-slot" style="left: 23%; top: 26%;" data-team="A" data-slot="1" data-pos="DEF">
-                <span class="slot-pos-badge">DEF</span>
+              <div class="pitch-slot team-a-slot" style="left: 23%; top: 26%;" data-team="A" data-slot="1">
+                <span class="slot-number-badge">2</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-a-slot" style="left: 23%; top: 74%;" data-team="A" data-slot="2" data-pos="DEF">
-                <span class="slot-pos-badge">DEF</span>
+              <div class="pitch-slot team-a-slot" style="left: 23%; top: 74%;" data-team="A" data-slot="2">
+                <span class="slot-number-badge">3</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-a-slot" style="left: 36%; top: 35%;" data-team="A" data-slot="3" data-pos="MIL">
-                <span class="slot-pos-badge">MIL</span>
+              <div class="pitch-slot team-a-slot" style="left: 36%; top: 35%;" data-team="A" data-slot="3">
+                <span class="slot-number-badge">4</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-a-slot" style="left: 42%; top: 65%;" data-team="A" data-slot="4" data-pos="ATT">
-                <span class="slot-pos-badge">ATT</span>
+              <div class="pitch-slot team-a-slot" style="left: 42%; top: 65%;" data-team="A" data-slot="4">
+                <span class="slot-number-badge">5</span>
                 <span class="slot-empty-icon">+</span>
               </div>
 
               <!-- Team B Slots -->
-              <div class="pitch-slot team-b-slot" style="left: 90%; top: 50%;" data-team="B" data-slot="0" data-pos="GK">
-                <span class="slot-pos-badge">GK</span>
+              <div class="pitch-slot team-b-slot" style="left: 90%; top: 50%;" data-team="B" data-slot="0">
+                <span class="slot-number-badge">1</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-b-slot" style="left: 77%; top: 26%;" data-team="B" data-slot="1" data-pos="DEF">
-                <span class="slot-pos-badge">DEF</span>
+              <div class="pitch-slot team-b-slot" style="left: 77%; top: 26%;" data-team="B" data-slot="1">
+                <span class="slot-number-badge">2</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-b-slot" style="left: 77%; top: 74%;" data-team="B" data-slot="2" data-pos="DEF">
-                <span class="slot-pos-badge">DEF</span>
+              <div class="pitch-slot team-b-slot" style="left: 77%; top: 74%;" data-team="B" data-slot="2">
+                <span class="slot-number-badge">3</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-b-slot" style="left: 64%; top: 35%;" data-team="B" data-slot="3" data-pos="MIL">
-                <span class="slot-pos-badge">MIL</span>
+              <div class="pitch-slot team-b-slot" style="left: 64%; top: 35%;" data-team="B" data-slot="3">
+                <span class="slot-number-badge">4</span>
                 <span class="slot-empty-icon">+</span>
               </div>
-              <div class="pitch-slot team-b-slot" style="left: 58%; top: 65%;" data-team="B" data-slot="4" data-pos="ATT">
-                <span class="slot-pos-badge">ATT</span>
+              <div class="pitch-slot team-b-slot" style="left: 58%; top: 65%;" data-team="B" data-slot="4">
+                <span class="slot-number-badge">5</span>
                 <span class="slot-empty-icon">+</span>
               </div>
             </div>
@@ -1568,18 +1635,18 @@
     </div>
 
     <!-- ==========================================
-         VIEW 4: GESTION DES JOUEURS & NOTES
+         VIEW 4: GESTION DES JOUEURS & STATS (ADMIN)
          ========================================== -->
     <div id="viewPlayers" class="view-panel">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
         <div>
-          <h2 style="font-family:'Space Grotesk', sans-serif; font-size: 1.5rem;">Fiches & Notes des Joueurs</h2>
+          <h2 style="font-family:'Space Grotesk', sans-serif; font-size: 1.5rem;">Joueurs, Notes, Buts & Arrêts</h2>
           <p style="font-size: 0.88rem; color: var(--text-muted);">
-            Noms, classements et notes (de 1 à 10) modifiables avec le mot de passe administrateur.
+            Modifiez les noms, photos, classements, buts, arrêts et notes de 1 à 10 (mot de passe admin requis).
           </p>
         </div>
         <div id="adminActionButtons" style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <!-- Boutons dynamiques générés selon mode admin -->
+          <!-- Boutons d'actions Admin -->
         </div>
       </div>
 
@@ -1600,7 +1667,7 @@
         Accès Administrateur
       </h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
-        Entrez le mot de passe pour modifier les noms, classements et notes uniques des joueurs.
+        Entrez le mot de passe pour modifier les noms, photos, statistiques et notes des joueurs.
       </p>
 
       <div class="form-group" style="margin-bottom: 18px;">
@@ -1650,7 +1717,7 @@
   <footer>
     <div style="display: flex; align-items: center; gap: 10px;">
       <span>⚽</span>
-      <span>LE FIVE • Manager d'équipe & Pronostics</span>
+      <span>ISEN-Five • Manager d'équipe & Pronostics</span>
     </div>
     <div style="color: var(--text-muted); font-size: 0.8rem;">
       Données sauvegardées localement dans votre navigateur
@@ -1659,29 +1726,47 @@
 
   <script>
     // ==================================================================
-    // 1. DATABASE DES JOUEURS : NOTE UNIQUE DE 1 À 10 & CLASSEMENTS
+    // 1. DATABASE DES JOUEURS : SANS POSTE, BUTS, ARRÊTS & NOTE 1-10
     // ==================================================================
     const DEFAULT_PLAYERS = [
-      { id: 'bastien', name: 'Bastien', note: 8.5, rank: 1, pos: 'MIL', photo: '' },
-      { id: 'theo',    name: 'Théo',    note: 8.5, rank: 2, pos: 'ATT', photo: 'rouge_max.jpg' },
-      { id: 'thomas',  name: 'Thomas',  note: 8.0, rank: 3, pos: 'ATT', photo: 'turkie.jpg' },
-      { id: 'thea',    name: 'Théa',    note: 8.0, rank: 4, pos: 'MIL', photo: '' },
-      { id: 'axel',    name: 'Axel',    note: 7.5, rank: 5, pos: 'DEF', photo: 'ficelle.webp' },
-      { id: 'louis',   name: 'Louis',   note: 7.5, rank: 6, pos: 'MIL', photo: 'lucien.png' },
-      { id: 'nathan',  name: 'Nathan',  note: 7.0, rank: 7, pos: 'GK',  photo: '' },
-      { id: 'martin',  name: 'Martin',  note: 7.0, rank: 8, pos: 'DEF', photo: '' },
-      { id: 'lucas',   name: 'Lucas',   note: 6.5, rank: 9, pos: 'ATT', photo: '' },
-      { id: 'hugo',    name: 'Hugo',    note: 6.5, rank: 10, pos: 'DEF', photo: '' }
+      { id: 'bastien', name: 'Bastien', note: 8.5, rank: 1, buts: 14, arrets: 2, photo: '' },
+      { id: 'theo',    name: 'Théo',    note: 8.5, rank: 2, buts: 18, arrets: 0, photo: 'rouge_max.jpg' },
+      { id: 'thomas',  name: 'Thomas',  note: 8.0, rank: 3, buts: 12, arrets: 1, photo: 'turkie.jpg' },
+      { id: 'thea',    name: 'Théa',    note: 8.0, rank: 4, buts: 9,  arrets: 3, photo: '' },
+      { id: 'axel',    name: 'Axel',    note: 7.5, rank: 5, buts: 5,  arrets: 8, photo: 'ficelle.webp' },
+      { id: 'louis',   name: 'Louis',   note: 7.5, rank: 6, buts: 7,  arrets: 4, photo: 'lucien.png' },
+      { id: 'nathan',  name: 'Nathan',  note: 7.0, rank: 7, buts: 2,  arrets: 19, photo: '' },
+      { id: 'martin',  name: 'Martin',  note: 7.0, rank: 8, buts: 4,  arrets: 11, photo: '' },
+      { id: 'lucas',   name: 'Lucas',   note: 6.5, rank: 9, buts: 6,  arrets: 1, photo: '' },
+      { id: 'hugo',    name: 'Hugo',    note: 6.5, rank: 10, buts: 3, arrets: 6, photo: '' }
     ];
 
-    let storedPlayers = localStorage.getItem('five_players_v2');
+    let storedPlayers = localStorage.getItem('five_players_v3');
     let players = [];
     if (storedPlayers) {
       try { players = JSON.parse(storedPlayers); } catch(e) {}
     }
     if (!players || players.length === 0) {
-      players = DEFAULT_PLAYERS;
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      // Migration éventuelle depuis v2/v1
+      let old = localStorage.getItem('five_players_v2') || localStorage.getItem('five_players');
+      if (old) {
+        try {
+          const oldList = JSON.parse(old);
+          players = oldList.map((p, idx) => ({
+            id: p.id || 'p_' + idx,
+            name: p.name || 'Joueur ' + (idx + 1),
+            note: p.note || (p.ovr ? Math.round(p.ovr / 10 * 10) / 10 : 7.0),
+            rank: p.rank || (idx + 1),
+            buts: p.buts || 0,
+            arrets: p.arrets || 0,
+            photo: p.photo || ''
+          }));
+        } catch(e) {}
+      }
+      if (!players || players.length === 0) {
+        players = DEFAULT_PLAYERS;
+      }
+      localStorage.setItem('five_players_v3', JSON.stringify(players));
     }
 
     let predictions = JSON.parse(localStorage.getItem('five_predictions')) || [];
@@ -1693,6 +1778,10 @@
     let teamBSlots = [null, null, null, null, null];
 
     let currentSelectedPronoOdd = 'A';
+
+    function savePlayersData() {
+      localStorage.setItem('five_players_v3', JSON.stringify(players));
+    }
 
     // ==================================================================
     // 2. AUTHENTICATION (ADMIN)
@@ -1766,7 +1855,7 @@
     }
 
     // ==================================================================
-    // 4. PITCH RENDERING & DRAG AND DROP
+    // 4. PITCH RENDERING & DRAG AND DROP (SANS POSTE)
     // ==================================================================
     let draggedPlayerId = null;
 
@@ -1777,7 +1866,6 @@
       const onPitchIds = new Set([...teamASlots.filter(Boolean), ...teamBSlots.filter(Boolean)]);
       const availablePlayers = players.filter(p => !onPitchIds.has(p.id));
 
-      // Sort available players by rank
       availablePlayers.sort((a, b) => (a.rank || 99) - (b.rank || 99));
 
       document.getElementById('benchCountBadge').textContent = `${availablePlayers.length} / ${players.length}`;
@@ -1809,7 +1897,7 @@
               <h4>${p.name}</h4>
               <div class="player-sub">
                 <span class="rank-tag">#${p.rank || '-'}</span>
-                <span class="pos-tag">${p.pos || 'MIL'}</span>
+                <span class="player-stats-pill">⚽ ${p.buts || 0} • 🧤 ${p.arrets || 0}</span>
               </div>
             </div>
           </div>
@@ -1855,9 +1943,8 @@
           }
         }
 
-        const pos = slot.dataset.pos;
         slot.innerHTML = `
-          <span class="slot-pos-badge">${pos}</span>
+          <span class="slot-number-badge">${slotIdx + 1}</span>
           <span class="slot-empty-icon">+</span>
         `;
       });
@@ -1964,7 +2051,7 @@
     }
 
     // ==================================================================
-    // 6. AUTO BALANCE (OPTIMISATION SUR LA NOTE DE 1 À 10)
+    // 6. AUTO BALANCE
     // ==================================================================
     function autoBalanceTeams() {
       let pool = players.slice(0, 10);
@@ -2182,7 +2269,7 @@
     }
 
     // ==================================================================
-    // 9. GESTION DES JOUEURS : NOMS, CLASSEMENTS & NOTE UNIQUE (1 À 10)
+    // 9. GESTION DES JOUEURS : SANS POSTE, BUTS, ARRÊTS & PHOTO UPLOAD
     // ==================================================================
     function renderPlayersAdminView() {
       const grid = document.getElementById('playersAdminGrid');
@@ -2200,6 +2287,12 @@
           <button class="btn btn-secondary" onclick="sortPlayersBy('note')">
             <span>⭐</span> Trier par Note
           </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('buts')">
+            <span>⚽</span> Trier par Buts
+          </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('arrets')">
+            <span>🧤</span> Trier par Arrêts
+          </button>
         `;
       } else {
         actionButtons.innerHTML = `
@@ -2208,6 +2301,12 @@
           </button>
           <button class="btn btn-secondary" onclick="sortPlayersBy('note')">
             <span>⭐</span> Trier par Note
+          </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('buts')">
+            <span>⚽</span> Trier par Buts
+          </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('arrets')">
+            <span>🧤</span> Trier par Arrêts
           </button>
         `;
       }
@@ -2221,51 +2320,65 @@
             <div class="locked-overlay">
               <span style="font-size:1.5rem;">🔒</span>
               <span>Modifications verrouillées</span>
-              <span style="font-size:0.75rem; opacity:0.8;">Connexion Admin requise pour éditer nom, classement et note</span>
+              <span style="font-size:0.75rem; opacity:0.8;">Connexion Admin requise pour éditer nom, photo, buts, arrêts et note</span>
             </div>
           ` : ''}
 
+          <!-- Header : Avatar + Bouton changer photo + Rang + Note -->
           <div class="player-edit-header">
-            <div class="player-avatar-wrap" style="width:52px; height:52px;">
+            <div class="player-avatar-wrap" style="width:58px; height:58px; cursor:${isAdmin ? 'pointer' : 'default'};" onclick="triggerPhotoUpload('${p.id}')" title="${isAdmin ? 'Cliquez pour changer la photo' : ''}">
               ${p.photo ? `<img src="${p.photo}" class="player-avatar-img" alt="${p.name}">` : `<div style="width:100%;height:100%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name ? p.name[0] : '?'}</div>`}
+              ${isAdmin ? `<div class="avatar-edit-badge">📷 Modifier</div>` : ''}
             </div>
+            <input type="file" id="photoInput_${p.id}" accept="image/*" style="display:none;" onchange="handlePhotoUpload('${p.id}', this)">
+
             <div style="flex:1;">
               <span class="rank-tag">Classement : #${p.rank || '-'}</span>
-              <div style="font-size:1.1rem; font-weight:800; font-family:'Space Grotesk',sans-serif; color:#fff;">${p.name}</div>
+              <div style="font-size:1.15rem; font-weight:800; font-family:'Space Grotesk',sans-serif; color:#fff;">${p.name}</div>
             </div>
             <div class="note-display-badge" id="badgeNote_${p.id}">
               ${(p.note || 5).toFixed(1)}<span style="font-size:0.75rem; color:var(--text-muted);">/10</span>
             </div>
           </div>
 
-          <!-- Formulaire d'édition du Nom -->
-          <div class="form-group">
-            <label class="form-label">Nom du Joueur</label>
-            <input type="text" class="input-field" value="${p.name}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerName('${p.id}', this.value)">
-          </div>
-
-          <!-- Ligne Classement & Poste -->
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <!-- Formulaire Nom et Classement -->
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:10px;">
             <div class="form-group">
-              <label class="form-label">Classement (#)</label>
-              <input type="number" min="1" max="99" class="input-field" value="${p.rank || 1}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerRank('${p.id}', this.value)">
+              <label class="form-label">Nom du Joueur</label>
+              <input type="text" class="input-field" value="${p.name}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerName('${p.id}', this.value)">
             </div>
             <div class="form-group">
-              <label class="form-label">Poste</label>
-              <select class="input-field" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerPos('${p.id}', this.value)">
-                <option value="ATT" ${p.pos === 'ATT' ? 'selected' : ''}>ATT (Buteur)</option>
-                <option value="MIL" ${p.pos === 'MIL' ? 'selected' : ''}>MIL (Milieu)</option>
-                <option value="DEF" ${p.pos === 'DEF' ? 'selected' : ''}>DEF (Défenseur)</option>
-                <option value="GK"  ${p.pos === 'GK'  ? 'selected' : ''}>GK (Gardien)</option>
-              </select>
+              <label class="form-label">Rang (#)</label>
+              <input type="number" min="1" max="99" class="input-field" value="${p.rank || 1}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerRank('${p.id}', this.value)">
+            </div>
+          </div>
+
+          <!-- Compteurs Buts et Arrêts -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="stat-counter-box">
+              <label class="form-label">⚽ Buts Marqués</label>
+              <div class="counter-control">
+                <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'buts', -1)">-</button>
+                <input type="number" min="0" max="999" class="counter-input" value="${p.buts || 0}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerStatCount('${p.id}', 'buts', this.value)">
+                <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'buts', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="stat-counter-box">
+              <label class="form-label">🧤 Arrêts Effectués</label>
+              <div class="counter-control">
+                <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'arrets', -1)">-</button>
+                <input type="number" min="0" max="999" class="counter-input" value="${p.arrets || 0}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerStatCount('${p.id}', 'arrets', this.value)">
+                <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'arrets', 1)">+</button>
+              </div>
             </div>
           </div>
 
           <!-- Note Unique de 1 à 10 -->
-          <div class="form-group" style="margin-top:4px;">
+          <div class="form-group" style="margin-top:2px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
               <label class="form-label">Note Unique (1 à 10)</label>
-              <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; color:var(--gold); font-size:1.1rem;" id="noteVal_${p.id}">
+              <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; color:var(--gold); font-size:1.15rem;" id="noteVal_${p.id}">
                 ${(p.note || 5).toFixed(1)} / 10
               </span>
             </div>
@@ -2273,9 +2386,14 @@
           </div>
 
           ${isAdmin ? `
-            <button class="btn btn-secondary" style="border-color:rgba(255,59,92,0.3); color:var(--team-b); margin-top:6px; padding:6px 12px; font-size:0.8rem; justify-content:center;" onclick="deletePlayer('${p.id}')">
-              <span>🗑️</span> Supprimer ce joueur
-            </button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <button class="btn btn-secondary" style="padding:6px 10px; font-size:0.75rem;" onclick="promptPhotoUrl('${p.id}')">
+                🔗 Coller URL Photo
+              </button>
+              <button class="btn btn-secondary" style="border-color:rgba(255,59,92,0.3); color:var(--team-b); padding:6px 12px; font-size:0.75rem;" onclick="deletePlayer('${p.id}')">
+                🗑️ Supprimer
+              </button>
+            </div>
           ` : ''}
         `;
 
@@ -2288,7 +2406,7 @@
       const p = players.find(x => x.id === playerId);
       if (!p) return;
       p.name = newName.trim() || p.name;
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      savePlayersData();
       renderPitchSlots();
       renderBench();
     }
@@ -2298,19 +2416,29 @@
       const p = players.find(x => x.id === playerId);
       if (!p) return;
       p.rank = parseInt(newRank, 10) || p.rank;
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      savePlayersData();
       renderPitchSlots();
       renderBench();
     }
 
-    function updatePlayerPos(playerId, newPos) {
+    function incrementStat(playerId, statKey, delta) {
       if (!isAdmin) return;
       const p = players.find(x => x.id === playerId);
       if (!p) return;
-      p.pos = newPos;
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
-      renderPitchSlots();
+      p[statKey] = Math.max(0, (p[statKey] || 0) + delta);
+      savePlayersData();
       renderBench();
+      renderPlayersAdminView();
+    }
+
+    function updatePlayerStatCount(playerId, statKey, val) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      p[statKey] = Math.max(0, parseInt(val, 10) || 0);
+      savePlayersData();
+      renderBench();
+      renderPlayersAdminView();
     }
 
     function updatePlayerNote(playerId, newNote) {
@@ -2324,9 +2452,52 @@
       const badgeEl = document.getElementById('badgeNote_' + playerId);
       if (badgeEl) badgeEl.innerHTML = p.note.toFixed(1) + '<span style="font-size:0.75rem; color:var(--text-muted);">/10</span>';
 
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      savePlayersData();
       renderPitchSlots();
       renderBench();
+    }
+
+    function triggerPhotoUpload(playerId) {
+      if (!isAdmin) return;
+      const input = document.getElementById('photoInput_' + playerId);
+      if (input) input.click();
+    }
+
+    function handlePhotoUpload(playerId, input) {
+      if (!isAdmin || !input.files || !input.files[0]) return;
+      const file = input.files[0];
+
+      if (file.size > 4 * 1024 * 1024) {
+        alert('Image trop volumineuse (max 4 Mo) !');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const p = players.find(x => x.id === playerId);
+        if (p) {
+          p.photo = e.target.result;
+          savePlayersData();
+          renderPitchSlots();
+          renderBench();
+          renderPlayersAdminView();
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function promptPhotoUrl(playerId) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      const url = prompt('URL ou chemin de la photo (ex: turkie.jpg, https://...) :', p.photo || '');
+      if (url !== null) {
+        p.photo = url.trim();
+        savePlayersData();
+        renderPitchSlots();
+        renderBench();
+        renderPlayersAdminView();
+      }
     }
 
     function sortPlayersBy(criterion) {
@@ -2334,8 +2505,12 @@
         players.sort((a, b) => (a.rank || 99) - (b.rank || 99));
       } else if (criterion === 'note') {
         players.sort((a, b) => (b.note || 0) - (a.note || 0));
+      } else if (criterion === 'buts') {
+        players.sort((a, b) => (b.buts || 0) - (a.buts || 0));
+      } else if (criterion === 'arrets') {
+        players.sort((a, b) => (b.arrets || 0) - (a.arrets || 0));
       }
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      savePlayersData();
       renderPlayersAdminView();
       renderBench();
     }
@@ -2350,11 +2525,12 @@
         name: name.trim(),
         note: 7.0,
         rank: players.length + 1,
-        pos: 'MIL',
+        buts: 0,
+        arrets: 0,
         photo: ''
       };
       players.push(newPlayer);
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      savePlayersData();
       renderPlayersAdminView();
       renderBench();
     }
@@ -2368,7 +2544,7 @@
       players = players.filter(x => x.id !== playerId);
       teamASlots = teamASlots.map(id => id === playerId ? null : id);
       teamBSlots = teamBSlots.map(id => id === playerId ? null : id);
-      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      savePlayersData();
       renderPitchSlots();
       renderBench();
       renderPlayersAdminView();
