@@ -1,0 +1,12 @@
+[
+  { "id": "bastien", "name": "Bastien", "note": 8.5, "rank": 1, "buts": 14, "arrets": 2, "photo": "" },
+  { "id": "theo", "name": "Théo", "note": 8.5, "rank": 2, "buts": 18, "arrets": 0, "photo": "rouge_max.jpg" },
+  { "id": "thomas", "name": "Thomas", "note": 8.0, "rank": 3, "buts": 12, "arrets": 1, "photo": "turkie.jpg" },
+  { "id": "thea", "name": "Théa", "note": 8.0, "rank": 4, "buts": 9, "arrets": 3, "photo": "" },
+  { "id": "axel", "name": "Axel", "note": 7.5, "rank": 5, "buts": 5, "arrets": 8, "photo": "ficelle.webp" },
+  { "id": "louis", "name": "Louis", "note": 7.5, "rank": 6, "buts": 7, "arrets": 4, "photo": "lucien.png" },
+  { "id": "nathan", "name": "Nathan", "note": 7.0, "rank": 7, "buts": 2, "arrets": 19, "photo": "" },
+  { "id": "martin", "name": "Martin", "note": 7.0, "rank": 8, "buts": 4, "arrets": 11, "photo": "" },
+  { "id": "lucas", "name": "Lucas", "note": 6.5, "rank": 9, "buts": 6, "arrets": 1, "photo": "" },
+  { "id": "hugo", "name": "Hugo", "note": 6.5, "rank": 10, "buts": 3, "arrets": 6, "photo": "" }
+]

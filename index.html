@@ -1254,6 +1254,35 @@
       padding: 4px 6px;
     }
 
+    /* Toast Notification */
+    .save-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #0d281a, #06140d);
+      border: 2px solid var(--pitch-green);
+      color: #fff;
+      padding: 16px 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 25px var(--pitch-green-glow);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 999;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+
+    .save-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
     .locked-overlay {
       position: absolute;
       top: 0;
@@ -1653,6 +1682,13 @@
       <div class="players-admin-grid" id="playersAdminGrid">
         <!-- Player edit cards injected here -->
       </div>
+
+      <!-- Grand Bouton SAVE en bas de page -->
+      <div style="text-align: center; margin-top: 32px; margin-bottom: 12px;">
+        <button class="btn btn-green" style="padding: 16px 40px; font-size: 1.1rem; box-shadow: 0 6px 30px var(--pitch-green-glow); margin: 0 auto;" onclick="saveAllPlayersChanges()">
+          <span>💾</span> ENREGISTRER TOUTES LES MODIFICATIONS (SAVE)
+        </button>
+      </div>
     </div>
 
   </main>
@@ -1723,6 +1759,11 @@
       Données sauvegardées localement dans votre navigateur
     </div>
   </footer>
+
+  <!-- Toast Notification -->
+  <div id="saveToast" class="save-toast">
+    <span>✅</span> Modifications enregistrées avec succès !
+  </div>
 
   <script>
     // ==================================================================
@@ -2287,7 +2328,13 @@
 
       if (isAdmin) {
         actionButtons.innerHTML = `
-          <button class="btn btn-green" onclick="addNewPlayer()">
+          <button class="btn btn-green" style="box-shadow: 0 0 20px var(--pitch-green-glow); font-weight: 800;" onclick="saveAllPlayersChanges()">
+            <span>💾</span> ENREGISTRER (SAVE)
+          </button>
+          <button class="btn btn-secondary" style="border-color: var(--gold); color: var(--gold);" onclick="generateShareLink()">
+            <span>🔗</span> Partager ce Five aux Potes
+          </button>
+          <button class="btn btn-secondary" onclick="addNewPlayer()">
             <span>➕</span> Ajouter un Joueur
           </button>
           <button class="btn btn-secondary" onclick="sortPlayersBy('rank')">
@@ -2305,6 +2352,9 @@
         `;
       } else {
         actionButtons.innerHTML = `
+          <button class="btn btn-secondary" style="border-color: var(--gold); color: var(--gold);" onclick="generateShareLink()">
+            <span>🔗</span> Partager ce Five aux Potes
+          </button>
           <button class="btn btn-secondary" onclick="sortPlayersBy('rank')">
             <span>🔢</span> Trier par Classement
           </button>
@@ -2354,11 +2404,11 @@
           <div style="display:grid; grid-template-columns: 2fr 1fr; gap:10px;">
             <div class="form-group">
               <label class="form-label">Nom du Joueur</label>
-              <input type="text" class="input-field" value="${p.name}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerName('${p.id}', this.value)">
+              <input type="text" id="inputName_${p.id}" class="input-field" value="${p.name}" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerName('${p.id}', this.value)">
             </div>
             <div class="form-group">
               <label class="form-label">Rang (#)</label>
-              <input type="number" min="1" max="99" class="input-field" value="${p.rank || 1}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerRank('${p.id}', this.value)">
+              <input type="number" min="1" max="99" id="inputRank_${p.id}" class="input-field" value="${p.rank || 1}" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerRank('${p.id}', this.value)">
             </div>
           </div>
 
@@ -2368,7 +2418,7 @@
               <label class="form-label">⚽ Buts Marqués</label>
               <div class="counter-control">
                 <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'buts', -1)">-</button>
-                <input type="number" min="0" max="999" class="counter-input" value="${p.buts || 0}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerStatCount('${p.id}', 'buts', this.value)">
+                <input type="number" min="0" max="999" id="inputButs_${p.id}" class="counter-input" value="${p.buts || 0}" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerStatCount('${p.id}', 'buts', this.value)">
                 <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'buts', 1)">+</button>
               </div>
             </div>
@@ -2377,7 +2427,7 @@
               <label class="form-label">🧤 Arrêts Effectués</label>
               <div class="counter-control">
                 <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'arrets', -1)">-</button>
-                <input type="number" min="0" max="999" class="counter-input" value="${p.arrets || 0}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerStatCount('${p.id}', 'arrets', this.value)">
+                <input type="number" min="0" max="999" id="inputArrets_${p.id}" class="counter-input" value="${p.arrets || 0}" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerStatCount('${p.id}', 'arrets', this.value)">
                 <button class="counter-btn" ${!isAdmin ? 'disabled' : ''} onclick="incrementStat('${p.id}', 'arrets', 1)">+</button>
               </div>
             </div>
@@ -2391,7 +2441,7 @@
                 ${(p.note || 5).toFixed(1)} / 10
               </span>
             </div>
-            <input type="range" min="1" max="10" step="0.5" value="${p.note || 5}" class="stat-slider" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerNote('${p.id}', this.value)">
+            <input type="range" min="1" max="10" step="0.5" id="sliderNote_${p.id}" value="${p.note || 5}" class="stat-slider" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerNote('${p.id}', this.value)">
           </div>
 
           ${isAdmin ? `
@@ -2560,8 +2610,104 @@
     }
 
     // ==================================================================
+    // SAUVEGARDE GLOBALE & LIEN DE PARTAGE POUR LES POTES
+    // ==================================================================
+    let toastTimer = null;
+    function showToast(msg) {
+      let toast = document.getElementById('saveToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'saveToast';
+        toast.className = 'save-toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = '<span>✅</span> ' + msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    function saveAllPlayersChanges(notify = true) {
+      if (isAdmin) {
+        players.forEach(p => {
+          const nameEl = document.getElementById('inputName_' + p.id);
+          if (nameEl && nameEl.value.trim()) p.name = nameEl.value.trim();
+          const rankEl = document.getElementById('inputRank_' + p.id);
+          if (rankEl) p.rank = parseInt(rankEl.value, 10) || p.rank;
+          const butsEl = document.getElementById('inputButs_' + p.id);
+          if (butsEl) p.buts = Math.max(0, parseInt(butsEl.value, 10) || 0);
+          const arretsEl = document.getElementById('inputArrets_' + p.id);
+          if (arretsEl) p.arrets = Math.max(0, parseInt(arretsEl.value, 10) || 0);
+          const sliderEl = document.getElementById('sliderNote_' + p.id);
+          if (sliderEl) p.note = parseFloat(sliderEl.value);
+        });
+      }
+
+      savePlayersData();
+      renderPitchSlots();
+      renderBench();
+      renderPlayersAdminView();
+
+      if (notify) {
+        showToast('Toutes les modifications sont enregistrées avec succès !');
+      }
+    }
+
+    function generateShareLink() {
+      saveAllPlayersChanges(false);
+      const compact = players.map(p => ({
+        i: p.id,
+        n: p.name,
+        v: p.note,
+        r: p.rank,
+        b: p.buts,
+        a: p.arrets,
+        p: p.photo && p.photo.length < 200 ? p.photo : ''
+      }));
+      const jsonStr = JSON.stringify(compact);
+      const base64 = btoa(encodeURIComponent(jsonStr));
+      const fullUrl = window.location.origin + window.location.pathname + '#d=' + base64;
+
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showToast('Lien de partage copié ! Envoie-le sur WhatsApp à tes potes pour qu\'ils voient exactement la même chose !');
+      }).catch(() => {
+        prompt('Copie ce lien pour l\'envoyer à tes potes sur WhatsApp :', fullUrl);
+      });
+    }
+
+    function loadFromUrlHash() {
+      if (window.location.hash && window.location.hash.startsWith('#d=')) {
+        try {
+          const base64 = window.location.hash.slice(3);
+          const jsonStr = decodeURIComponent(atob(base64));
+          const compact = JSON.parse(jsonStr);
+          if (Array.isArray(compact) && compact.length > 0) {
+            compact.forEach(item => {
+              const p = players.find(x => x.id === item.i);
+              if (p) {
+                p.name = item.n || p.name;
+                p.note = item.v !== undefined ? item.v : p.note;
+                p.rank = item.r !== undefined ? item.r : p.rank;
+                p.buts = item.b !== undefined ? item.b : p.buts;
+                p.arrets = item.a !== undefined ? item.a : p.arrets;
+                if (item.p) p.photo = item.p;
+              }
+            });
+            savePlayersData();
+            showToast('Données du Five synchronisées depuis le lien partagé !');
+          }
+        } catch(e) {
+          console.warn('Erreur chargement hash URL:', e);
+        }
+      }
+    }
+
+    // ==================================================================
     // INITIALISATION
     // ==================================================================
+    loadFromUrlHash();
     updateAdminUI();
     initPitchSlotsEvents();
     renderBench();
