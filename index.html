@@ -1283,6 +1283,66 @@
       opacity: 1;
     }
 
+    /* Community Rating Styles */
+    .rating-pill-current {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--pitch-green);
+      background: rgba(0, 255, 135, 0.12);
+      border: 1px solid rgba(0, 255, 135, 0.3);
+      padding: 3px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .quick-score-btns {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .quick-score-btn {
+      flex: 1;
+      padding: 5px 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-score-btn:hover {
+      background: var(--pitch-green);
+      color: #000;
+      border-color: var(--pitch-green);
+    }
+
+    .votes-breakdown-list {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.25);
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 65px;
+      overflow-y: auto;
+    }
+
+    .voter-tag {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 7px;
+      border-radius: 6px;
+      color: #cfd6e6;
+    }
+
     .locked-overlay {
       position: absolute;
       top: 0;
@@ -1411,6 +1471,10 @@
       <button class="nav-tab active" id="tabPitchBtn" onclick="switchView('pitch')">
         <span>🏟️</span>
         <span>Terrain & Match</span>
+      </button>
+      <button class="nav-tab" id="tabRateBtn" onclick="switchView('rate')">
+        <span>⭐</span>
+        <span>Noter les Joueurs</span>
       </button>
       <button class="nav-tab" id="tabPronosBtn" onclick="switchView('pronos')">
         <span>🎯</span>
@@ -1590,7 +1654,42 @@
     </div>
 
     <!-- ==========================================
-         VIEW 2: PRONOSTICS
+         VIEW 2: NOTER LES JOUEURS (COMMUNAUTAIRE)
+         ========================================== -->
+    <div id="viewRate" class="view-panel">
+      <!-- Voter Header Card -->
+      <div class="balance-bar-card" style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h2 style="font-family:'Space Grotesk', sans-serif; font-size: 1.45rem;">⭐ Espace Notation Communautaire</h2>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+              Chacun attribue sa note de 1 à 10 pour chaque joueur. La note affichée sur le terrain devient la moyenne exacte de tous les votes !
+            </p>
+          </div>
+
+          <!-- Voter Selector -->
+          <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.35); padding: 8px 16px; border-radius: 14px; border: 1px solid var(--border);">
+            <label class="form-label" style="margin: 0; white-space: nowrap;">👤 Vous notez en tant que :</label>
+            <input type="text" class="input-field" id="currentVoterName" placeholder="Votre prénom (ex: Thomas...)" style="padding: 8px 12px; font-size: 0.95rem; width: 170px;" onchange="loadVoterExistingRatings()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid of Player Rating Cards -->
+      <div class="players-admin-grid" id="communityRateGrid">
+        <!-- Injected via renderCommunityRateView() -->
+      </div>
+
+      <!-- Big Submit All Ratings Button -->
+      <div style="text-align: center; margin-top: 32px; margin-bottom: 12px;">
+        <button class="btn btn-green" style="padding: 16px 40px; font-size: 1.1rem; box-shadow: 0 6px 30px var(--pitch-green-glow); margin: 0 auto;" onclick="submitCommunityRatings()">
+          <span>⭐</span> ENREGISTRER & VALIDER MES NOTES
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 3: PRONOSTICS
          ========================================== -->
     <div id="viewPronos" class="view-panel">
       <div class="pronos-layout">
@@ -1890,15 +1989,20 @@
     // 3. NAVIGATION VIEW SWITCHER
     // ==================================================================
     function switchView(viewName) {
-      const views = ['pitch', 'pronos', 'history', 'players'];
+      const views = ['pitch', 'rate', 'pronos', 'history', 'players'];
       views.forEach(v => {
-        document.getElementById('view' + v.charAt(0).toUpperCase() + v.slice(1)).classList.remove('active');
-        document.getElementById('tab' + v.charAt(0).toUpperCase() + v.slice(1) + 'Btn').classList.remove('active');
+        const viewEl = document.getElementById('view' + v.charAt(0).toUpperCase() + v.slice(1));
+        const tabEl = document.getElementById('tab' + v.charAt(0).toUpperCase() + v.slice(1) + 'Btn');
+        if (viewEl) viewEl.classList.remove('active');
+        if (tabEl) tabEl.classList.remove('active');
       });
 
-      document.getElementById('view' + viewName.charAt(0).toUpperCase() + viewName.slice(1)).classList.add('active');
-      document.getElementById('tab' + viewName.charAt(0).toUpperCase() + viewName.slice(1) + 'Btn').classList.add('active');
+      const activeView = document.getElementById('view' + viewName.charAt(0).toUpperCase() + viewName.slice(1));
+      const activeTab = document.getElementById('tab' + viewName.charAt(0).toUpperCase() + viewName.slice(1) + 'Btn');
+      if (activeView) activeView.classList.add('active');
+      if (activeTab) activeTab.classList.add('active');
 
+      if (viewName === 'rate') renderCommunityRateView();
       if (viewName === 'pronos') renderPronosList();
       if (viewName === 'history') renderHistoryView();
       if (viewName === 'players') renderPlayersAdminView();
@@ -2433,15 +2537,23 @@
             </div>
           </div>
 
-          <!-- Note Unique de 1 à 10 -->
+          <!-- Note Unique de 1 à 10 (Admin Override) -->
           <div class="form-group" style="margin-top:2px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-              <label class="form-label">Note Unique (1 à 10)</label>
+              <label class="form-label">Note Officielle (1 à 10)</label>
               <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; color:var(--gold); font-size:1.15rem;" id="noteVal_${p.id}">
                 ${(p.note || 5).toFixed(1)} / 10
               </span>
             </div>
             <input type="range" min="1" max="10" step="0.5" id="sliderNote_${p.id}" value="${p.note || 5}" class="stat-slider" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerNote('${p.id}', this.value)">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--text-muted); margin-top:3px;">
+              <span>⭐ Moyenne votes : ${(p.note || 5).toFixed(1)}/10 (${p.ratings ? p.ratings.length : 0} votes)</span>
+              ${isAdmin && p.ratings && p.ratings.length > 0 ? `
+                <button type="button" style="background:none; border:none; color:var(--team-b); cursor:pointer; font-size:0.72rem;" onclick="resetPlayerVotes('${p.id}')">
+                  Effacer les votes
+                </button>
+              ` : ''}
+            </div>
           </div>
 
           ${isAdmin ? `
@@ -2512,6 +2624,159 @@
       if (badgeEl) badgeEl.innerHTML = p.note.toFixed(1) + '<span style="font-size:0.75rem; color:var(--text-muted);">/10</span>';
 
       savePlayersData();
+      renderPitchSlots();
+      renderBench();
+    }
+
+    // ==================================================================
+    // 10. NOTATION COMMUNAUTAIRE & MOYENNE AUTOMATIQUE
+    // ==================================================================
+    let currentVoter = localStorage.getItem('five_voter_name') || '';
+
+    function renderCommunityRateView() {
+      const grid = document.getElementById('communityRateGrid');
+      const voterInput = document.getElementById('currentVoterName');
+      if (voterInput) voterInput.value = currentVoter;
+      grid.innerHTML = '';
+
+      players.forEach(p => {
+        if (!p.ratings) p.ratings = [];
+        const card = document.createElement('div');
+        card.className = 'player-edit-card';
+
+        let myVote = null;
+        if (currentVoter) {
+          const found = p.ratings.find(r => r.voter.toLowerCase() === currentVoter.toLowerCase());
+          if (found) myVote = found.note;
+        }
+        const currentSliderVal = (myVote !== null) ? myVote : (p.note || 7.0);
+        const voteCount = p.ratings.length;
+
+        const voterBadgesHtml = p.ratings.map(r => `
+          <span class="voter-tag"><strong>${r.voter}</strong>: ${r.note}/10</span>
+        `).join('') || '<span style="color:var(--text-muted); font-style:italic;">Aucun vote pour le moment</span>';
+
+        card.innerHTML = `
+          <div class="player-edit-header">
+            <div class="player-avatar-wrap" style="width:52px; height:52px;">
+              ${p.photo ? `<img src="${p.photo}" class="player-avatar-img" alt="${p.name}">` : `<div style="width:100%;height:100%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name ? p.name[0] : '?'}</div>`}
+            </div>
+            <div style="flex:1;">
+              <span class="rank-tag">Classement : #${p.rank || '-'}</span>
+              <div style="font-size:1.15rem; font-weight:800; font-family:'Space Grotesk',sans-serif; color:#fff;">${p.name}</div>
+              <span style="font-size:0.75rem; color:var(--text-muted);">${voteCount} vote${voteCount > 1 ? 's' : ''} au total</span>
+            </div>
+            <div class="note-display-badge">
+              ⭐ ${(p.note || 5).toFixed(1)}<span style="font-size:0.72rem; color:var(--text-muted);">/10</span>
+            </div>
+          </div>
+
+          <!-- Section : Attribuer sa note -->
+          <div class="stat-counter-box" style="margin-top:6px; background:rgba(0,255,135,0.06); border-color:rgba(0,255,135,0.22);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label class="form-label" style="color:var(--pitch-green); margin:0;">Votre Note pour ${p.name} :</label>
+              <span class="rating-pill-current" id="voterVal_${p.id}">${parseFloat(currentSliderVal).toFixed(1)} / 10</span>
+            </div>
+
+            <input type="range" min="1" max="10" step="0.5" id="voterSlider_${p.id}" value="${currentSliderVal}" class="stat-slider" oninput="updateVoterLiveNote('${p.id}', this.value)">
+
+            <!-- Boutons de note rapide -->
+            <div class="quick-score-btns">
+              <button type="button" class="quick-score-btn" onclick="setQuickScore('${p.id}', 5)">5</button>
+              <button type="button" class="quick-score-btn" onclick="setQuickScore('${p.id}', 6)">6</button>
+              <button type="button" class="quick-score-btn" onclick="setQuickScore('${p.id}', 7)">7</button>
+              <button type="button" class="quick-score-btn" onclick="setQuickScore('${p.id}', 8)">8</button>
+              <button type="button" class="quick-score-btn" onclick="setQuickScore('${p.id}', 9)">9</button>
+              <button type="button" class="quick-score-btn" onclick="setQuickScore('${p.id}', 10)">10</button>
+            </div>
+          </div>
+
+          <!-- Détail des votes reçus des potes -->
+          <div>
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; margin-bottom:4px;">
+              Votes des potes :
+            </div>
+            <div class="votes-breakdown-list">
+              ${voterBadgesHtml}
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function updateVoterLiveNote(playerId, val) {
+      const el = document.getElementById('voterVal_' + playerId);
+      if (el) el.textContent = parseFloat(val).toFixed(1) + ' / 10';
+    }
+
+    function setQuickScore(playerId, val) {
+      const slider = document.getElementById('voterSlider_' + playerId);
+      if (slider) {
+        slider.value = val;
+        updateVoterLiveNote(playerId, val);
+      }
+    }
+
+    function loadVoterExistingRatings() {
+      const input = document.getElementById('currentVoterName');
+      if (input) {
+        currentVoter = input.value.trim();
+        localStorage.setItem('five_voter_name', currentVoter);
+        renderCommunityRateView();
+      }
+    }
+
+    function submitCommunityRatings() {
+      const input = document.getElementById('currentVoterName');
+      const voterName = (input ? input.value.trim() : '') || currentVoter;
+
+      if (!voterName) {
+        alert('Veuillez renseigner votre prénom en haut (« Vous notez en tant que : ») !');
+        if (input) input.focus();
+        return;
+      }
+
+      currentVoter = voterName;
+      localStorage.setItem('five_voter_name', currentVoter);
+
+      players.forEach(p => {
+        if (!p.ratings) p.ratings = [];
+        const slider = document.getElementById('voterSlider_' + p.id);
+        if (slider) {
+          const voteVal = parseFloat(slider.value);
+          const idx = p.ratings.findIndex(r => r.voter.toLowerCase() === voterName.toLowerCase());
+          if (idx >= 0) {
+            p.ratings[idx].note = voteVal;
+          } else {
+            p.ratings.push({ voter: voterName, note: voteVal });
+          }
+
+          // Calcul automatique de la moyenne
+          const sum = p.ratings.reduce((acc, r) => acc + r.note, 0);
+          p.note = Math.round((sum / p.ratings.length) * 10) / 10;
+        }
+      });
+
+      savePlayersData();
+      renderPitchSlots();
+      renderBench();
+      renderCommunityRateView();
+      renderPlayersAdminView();
+
+      showToast(`⭐ Notes enregistrées pour ${voterName} ! Les moyennes ont été recalculées.`);
+    }
+
+    function resetPlayerVotes(playerId) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      if (!confirm(`Effacer tous les votes communautaires de ${p.name} ?`)) return;
+      p.ratings = [];
+      savePlayersData();
+      renderPlayersAdminView();
+      renderCommunityRateView();
       renderPitchSlots();
       renderBench();
     }
@@ -2664,14 +2929,15 @@
         r: p.rank,
         b: p.buts,
         a: p.arrets,
-        p: p.photo && p.photo.length < 200 ? p.photo : ''
+        p: p.photo && p.photo.length < 200 ? p.photo : '',
+        t: p.ratings || []
       }));
       const jsonStr = JSON.stringify(compact);
       const base64 = btoa(encodeURIComponent(jsonStr));
       const fullUrl = window.location.origin + window.location.pathname + '#d=' + base64;
 
       navigator.clipboard.writeText(fullUrl).then(() => {
-        showToast('Lien de partage copié ! Envoie-le sur WhatsApp à tes potes pour qu\'ils voient exactement la même chose !');
+        showToast('Lien copié ! Envoie-le sur WhatsApp pour partager toutes les notes et votes !');
       }).catch(() => {
         prompt('Copie ce lien pour l\'envoyer à tes potes sur WhatsApp :', fullUrl);
       });
@@ -2693,10 +2959,11 @@
                 p.buts = item.b !== undefined ? item.b : p.buts;
                 p.arrets = item.a !== undefined ? item.a : p.arrets;
                 if (item.p) p.photo = item.p;
+                if (item.t) p.ratings = item.t;
               }
             });
             savePlayersData();
-            showToast('Données du Five synchronisées depuis le lien partagé !');
+            showToast('Données et votes du Five synchronisés depuis le lien partagé !');
           }
         } catch(e) {
           console.warn('Erreur chargement hash URL:', e);
