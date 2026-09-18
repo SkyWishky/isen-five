@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LE FIVE • Team Manager & Pronos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060911;
+      --bg-card: rgba(14, 20, 36, 0.78);
+      --border: rgba(255, 255, 255, 0.08);
+      --pitch-green: #00ff87;
+      --pitch-green-glow: rgba(0, 255, 135, 0.35);
+      --team-a: #00d2ff;
+      --team-a-glow: rgba(0, 210, 255, 0.4);
+      --team-b: #ff3b5c;
+      --team-b-glow: rgba(255, 59, 92, 0.4);
+      --gold: #ffd700;
+      --gold-glow: rgba(255, 215, 0, 0.4);
+      --purple: #8b5cf6;
+      --text: #f1f5f9;
+      --text-muted: #8b9bb4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 210, 255, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 15%, rgba(255, 59, 92, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(0, 255, 135, 0.09) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(10, 16, 32, 0.95) 0%, #060911 100%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 20px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .top-bar {
+      width: 100%;
+      max-width: 1320px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--pitch-green), var(--team-a));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 0 20px var(--pitch-green-glow);
+    }
+
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 40%, var(--pitch-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .admin-status-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+
+    .admin-badge.logged-in {
+      background: rgba(255, 215, 0, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .btn-admin {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      padding: 7px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-admin:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* Main Navigation Tabs */
+    .nav-tabs-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 4px 16px 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .nav-tabs {
+      display: inline-flex;
+      background: rgba(18, 26, 46, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      padding: 5px;
+      gap: 6px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      border-radius: 99px;
+      padding: 9px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .nav-tab:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, rgba(0, 255, 135, 0.22), rgba(0, 210, 255, 0.22));
+      border-color: var(--pitch-green);
+      color: #fff;
+      box-shadow: 0 0 20px var(--pitch-green-glow);
+    }
+
+    /* Layout & Panels */
+    .app-container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      flex: 1;
+    }
+
+    .view-panel {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===================================================
+       1. MATCH & PITCH SECTION (5 vs 5)
+       =================================================== */
+
+    /* Balance / Matchup Header Bar */
+    .balance-bar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .balance-teams-summary {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .balance-teams-summary {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    .team-badge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .team-badge-wrap.team-b-wrap {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .team-badge-wrap.team-b-wrap {
+        flex-direction: row;
+        text-align: left;
+      }
+    }
+
+    .team-emblem {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .team-emblem.team-a-emblem {
+      background: linear-gradient(135deg, #0077b6, var(--team-a));
+      box-shadow: 0 0 20px var(--team-a-glow);
+    }
+
+    .team-emblem.team-b-emblem {
+      background: linear-gradient(135deg, #c9184a, var(--team-b));
+      box-shadow: 0 0 20px var(--team-b-glow);
+    }
+
+    .team-meta h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .team-rating-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      margin-top: 2px;
+    }
+
+    .team-rating-pill.rating-a {
+      color: var(--team-a);
+    }
+
+    .team-rating-pill.rating-b {
+      color: var(--team-b);
+    }
+
+    /* Central Balance Meter */
+    .balance-center-gauge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 260px;
+    }
+
+    .vs-tag {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+
+    .balance-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+    }
+
+    .balance-progress-a {
+      height: 100%;
+      background: var(--team-a);
+      transition: width 0.4s ease;
+    }
+
+    .balance-progress-b {
+      height: 100%;
+      background: var(--team-b);
+      transition: width 0.4s ease;
+    }
+
+    .balance-status-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    /* Action bar on pitch */
+    .pitch-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-action-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 18px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      user-select: none;
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--pitch-green), #00c853);
+      color: #04101d;
+      box-shadow: 0 4px 18px var(--pitch-green-glow);
+    }
+
+    .btn-green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px var(--pitch-green-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    /* Pitch Grid Layout */
+    .matchup-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .matchup-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===================================================
+       SYNTHETIC 5-A-SIDE PITCH
+       =================================================== */
+    .pitch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .pitch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .pitch-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pitch-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      border-radius: 20px;
+      background: 
+        radial-gradient(ellipse at center, #0f4024 0%, #072615 75%, #03150b 100%);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        inset 0 0 40px rgba(0, 0, 0, 0.7),
+        0 10px 30px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      user-select: none;
+    }
+
+    /* Pitch Turf Stripes & Markings */
+    .pitch-canvas-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.015) 0px,
+        rgba(255, 255, 255, 0.015) 60px,
+        rgba(0, 0, 0, 0.02) 60px,
+        rgba(0, 0, 0, 0.02) 120px
+      );
+      pointer-events: none;
+    }
+
+    /* Pitch Center Markings */
+    .pitch-line-center {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      background: rgba(255, 255, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .pitch-center-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 110px;
+      height: 110px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .pitch-center-spot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Goal Areas */
+    .goal-area-left {
+      position: absolute;
+      top: 50%;
+      left: -2px;
+      transform: translateY(-50%);
+      width: 80px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-left: none;
+      border-radius: 0 80px 80px 0;
+      pointer-events: none;
+    }
+
+    .goal-area-right {
+      position: absolute;
+      top: 50%;
+      right: -2px;
+      transform: translateY(-50%);
+      width: 80px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-right: none;
+      border-radius: 80px 0 0 80px;
+      pointer-events: none;
+    }
+
+    /* Pitch Teams Half Zones */
+    .pitch-half {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 20px 14px;
+    }
+
+    .pitch-half-label {
+      position: absolute;
+      top: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 99px;
+      pointer-events: none;
+    }
+
+    .pitch-half-a .pitch-half-label {
+      left: 16px;
+      color: var(--team-a);
+      background: rgba(0, 210, 255, 0.15);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    .pitch-half-b .pitch-half-label {
+      right: 16px;
+      color: var(--team-b);
+      background: rgba(255, 59, 92, 0.15);
+      border: 1px solid rgba(255, 59, 92, 0.3);
+    }
+
+    /* Slot Positions on Pitch */
+    .pitch-slots-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .pitch-slot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 88px;
+      height: 88px;
+      pointer-events: auto;
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(4px);
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .pitch-slot:hover, .pitch-slot.drag-over {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+      transform: translate(-50%, -50%) scale(1.08);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    .pitch-slot.team-a-slot {
+      border-color: rgba(0, 210, 255, 0.5);
+    }
+
+    .pitch-slot.team-a-slot:hover, .pitch-slot.team-a-slot.drag-over {
+      border-color: var(--team-a);
+      box-shadow: 0 0 25px var(--team-a-glow);
+    }
+
+    .pitch-slot.team-b-slot {
+      border-color: rgba(255, 59, 92, 0.5);
+    }
+
+    .pitch-slot.team-b-slot:hover, .pitch-slot.team-b-slot.drag-over {
+      border-color: var(--team-b);
+      box-shadow: 0 0 25px var(--team-b-glow);
+    }
+
+    .slot-pos-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.5px;
+    }
+
+    .slot-empty-icon {
+      font-size: 1.1rem;
+      opacity: 0.5;
+      margin-top: 2px;
+    }
+
+    /* Player Card inside Pitch Slot */
+    .slot-player-card {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      cursor: grab;
+      user-select: none;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .slot-player-card:active {
+      cursor: grabbing;
+    }
+
+    .slot-player-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2.5px solid #fff;
+    }
+
+    .slot-player-ovr {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(135deg, #ffd700, #ff8a00);
+      color: #0b0d14;
+      border-radius: 50%;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .slot-player-name {
+      position: absolute;
+      bottom: -18px;
+      white-space: nowrap;
+      background: rgba(8, 12, 22, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .slot-remove-btn {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 59, 92, 0.9);
+      border: 1.5px solid #fff;
+      color: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .pitch-slot:hover .slot-remove-btn {
+      opacity: 1;
+    }
+
+    /* ===================================================
+       BENCH / ROSTER PANEL
+       =================================================== */
+    .roster-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px 22px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .roster-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .roster-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .roster-count {
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .roster-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .roster-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .roster-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+
+    /* Mini Player Card for Roster & Bench */
+    .player-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .player-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateX(4px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .player-card.dragging {
+      opacity: 0.4;
+      transform: scale(0.95);
+    }
+
+    .player-card-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .player-avatar-wrap {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--player-color, var(--pitch-green));
+      flex-shrink: 0;
+    }
+
+    .player-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .player-info h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .player-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .pos-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--gold);
+    }
+
+    .player-card-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .player-ovr-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gold);
+      background: rgba(255, 215, 0, 0.12);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      padding: 4px 10px;
+      border-radius: 10px;
+      min-width: 42px;
+      text-align: center;
+    }
+
+    .btn-quick-assign {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .btn-quick-assign:hover {
+      background: var(--pitch-green);
+      color: #000;
+    }
+
+    /* ===================================================
+       2. PRONOSTICS SECTION
+       =================================================== */
+    .pronos-layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .pronos-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .prono-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: var(--pitch-green);
+    }
+
+    /* Odds Button Grid (1, N, 2) */
+    .odds-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .odd-btn {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .odd-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .odd-btn.selected {
+      background: rgba(0, 255, 135, 0.18);
+      border-color: var(--pitch-green);
+      box-shadow: 0 0 15px var(--pitch-green-glow);
+    }
+
+    .odd-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .odd-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    /* Score Exact Input */
+    .score-exact-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .score-input {
+      width: 70px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      padding: 10px;
+    }
+
+    /* Pronos Feed */
+    .pronos-feed-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    .prono-item-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .prono-item-card:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .prono-user-info h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .prono-user-info span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .prono-pick-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ===================================================
+       3. HISTORIQUE DES MATCHS
+       =================================================== */
+    .history-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .history-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .match-archive-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .match-score-board {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .score-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .history-teams-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      font-size: 0.85rem;
+    }
+
+    .history-team-col {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .history-team-col h5 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    /* ===================================================
+       4. GESTION DES JOUEURS & NOTES (ADMIN)
+       =================================================== */
+    .players-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .player-edit-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .player-edit-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .edit-stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .stat-label {
+      width: 45px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .stat-slider {
+      flex: 1;
+      accent-color: var(--pitch-green);
+      cursor: pointer;
+    }
+
+    .stat-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      width: 30px;
+      text-align: right;
+      color: #fff;
+    }
+
+    .locked-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(6, 9, 17, 0.75);
+      backdrop-filter: blur(3px);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    /* Modals */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal-content {
+      position: relative;
+      z-index: 301;
+      background: radial-gradient(circle at 50% 15%, #141c30 0%, #0c101c 70%, #06080e 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 480px;
+      padding: 28px 24px;
+      text-align: center;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Footer */
+    footer {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: auto;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-logo">⚽</div>
+        <div>
+          <div class="brand-title">LE FIVE • ARENA</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">Gestion d'équipe 5v5 & Pronostics Officiels</div>
+        </div>
+      </div>
+
+      <div class="admin-status-wrap">
+        <div class="admin-badge" id="adminBadge">
+          <span id="adminLockIcon">🔒</span>
+          <span id="adminStatusText">Visiteur (Notes verrouillées)</span>
+        </div>
+        <button class="btn-admin" id="btnAdminAuth" onclick="toggleAdminAuthModal()">
+          <span>🔑</span> Connexion Admin
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Switcher -->
+  <div class="nav-tabs-wrapper">
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tabPitchBtn" onclick="switchView('pitch')">
+        <span>🏟️</span>
+        <span>Terrain & Match</span>
+      </button>
+      <button class="nav-tab" id="tabPronosBtn" onclick="switchView('pronos')">
+        <span>🎯</span>
+        <span>Pronostics</span>
+      </button>
+      <button class="nav-tab" id="tabHistoryBtn" onclick="switchView('history')">
+        <span>📜</span>
+        <span>Historique</span>
+      </button>
+      <button class="nav-tab" id="tabPlayersBtn" onclick="switchView('players')">
+        <span>⚙️</span>
+        <span>Joueurs & Notes</span>
+      </button>
+    </div>
+  </div>
+
+  <main class="app-container">
+
+    <!-- ==========================================
+         VIEW 1: PITCH & MATCHUP (5 vs 5)
+         ========================================== -->
+    <div id="viewPitch" class="view-panel active">
+
+      <!-- Balance Header Card -->
+      <div class="balance-bar-card">
+        <div class="balance-teams-summary">
+          <!-- Team A Info -->
+          <div class="team-badge-wrap">
+            <div class="team-emblem team-a-emblem">A</div>
+            <div class="team-meta">
+              <h3>ÉQUIPE BLANCHE</h3>
+              <div class="team-rating-pill rating-a">
+                <span id="ovrTeamA">--</span> <span style="font-size:0.75rem; color:var(--text-muted);">OVR MOY</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Central Balance Gauge -->
+          <div class="balance-center-gauge">
+            <div class="vs-tag">V S</div>
+            <div class="balance-track">
+              <div class="balance-progress-a" id="balanceBarA" style="width: 50%;"></div>
+              <div class="balance-progress-b" id="balanceBarB" style="width: 50%;"></div>
+            </div>
+            <div class="balance-status-text" id="balanceStatusText">
+              <span>⏳</span> Placez les joueurs sur le terrain
+            </div>
+          </div>
+
+          <!-- Team B Info -->
+          <div class="team-badge-wrap team-b-wrap">
+            <div class="team-emblem team-b-emblem">B</div>
+            <div class="team-meta">
+              <h3>ÉQUIPE NOIRE</h3>
+              <div class="team-rating-pill rating-b">
+                <span id="ovrTeamB">--</span> <span style="font-size:0.75rem; color:var(--text-muted);">OVR MOY</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pitch Action Buttons -->
+        <div class="pitch-action-bar">
+          <div class="btn-action-group">
+            <button class="btn btn-green" onclick="autoBalanceTeams()">
+              <span>⚡</span> Équilibrage Auto Optimisé
+            </button>
+            <button class="btn btn-secondary" onclick="randomDraftTeams()">
+              <span>🔀</span> Tirage Aléatoire
+            </button>
+            <button class="btn btn-secondary" onclick="clearPitch()">
+              <span>🔄</span> Vider le Terrain
+            </button>
+          </div>
+
+          <div>
+            <button class="btn btn-secondary" style="border-color: var(--gold); color: var(--gold);" onclick="openEndMatchModal()">
+              <span>🏁</span> Clôturer & Enregistrer le Match
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matchup Grid : Pitch + Roster -->
+      <div class="matchup-grid">
+
+        <!-- 5-a-side Pitch -->
+        <div class="pitch-card">
+          <div class="pitch-header">
+            <div class="pitch-title">
+              <span>⚽</span> Terrain Synthétique 5v5
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Glissez les joueurs ou cliquez pour placer</span>
+          </div>
+
+          <div class="pitch-canvas-wrap">
+            <div class="pitch-line-center"></div>
+            <div class="pitch-center-circle"></div>
+            <div class="pitch-center-spot"></div>
+            <div class="goal-area-left"></div>
+            <div class="goal-area-right"></div>
+
+            <!-- Half A -->
+            <div class="pitch-half pitch-half-a">
+              <span class="pitch-half-label">Équipe A (Blanche)</span>
+            </div>
+
+            <!-- Half B -->
+            <div class="pitch-half pitch-half-b">
+              <span class="pitch-half-label">Équipe B (Noire)</span>
+            </div>
+
+            <!-- Slots Layer (Coordinates in percentage) -->
+            <div class="pitch-slots-layer" id="pitchSlotsContainer">
+              <!-- Team A Slots -->
+              <div class="pitch-slot team-a-slot" style="left: 10%; top: 50%;" data-team="A" data-slot="0" data-pos="GK">
+                <span class="slot-pos-badge">GK</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-a-slot" style="left: 23%; top: 26%;" data-team="A" data-slot="1" data-pos="DEF">
+                <span class="slot-pos-badge">DEF</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-a-slot" style="left: 23%; top: 74%;" data-team="A" data-slot="2" data-pos="DEF">
+                <span class="slot-pos-badge">DEF</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-a-slot" style="left: 36%; top: 35%;" data-team="A" data-slot="3" data-pos="MIL">
+                <span class="slot-pos-badge">MIL</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-a-slot" style="left: 42%; top: 65%;" data-team="A" data-slot="4" data-pos="ATT">
+                <span class="slot-pos-badge">ATT</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+
+              <!-- Team B Slots -->
+              <div class="pitch-slot team-b-slot" style="left: 90%; top: 50%;" data-team="B" data-slot="0" data-pos="GK">
+                <span class="slot-pos-badge">GK</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-b-slot" style="left: 77%; top: 26%;" data-team="B" data-slot="1" data-pos="DEF">
+                <span class="slot-pos-badge">DEF</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-b-slot" style="left: 77%; top: 74%;" data-team="B" data-slot="2" data-pos="DEF">
+                <span class="slot-pos-badge">DEF</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-b-slot" style="left: 64%; top: 35%;" data-team="B" data-slot="3" data-pos="MIL">
+                <span class="slot-pos-badge">MIL</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+              <div class="pitch-slot team-b-slot" style="left: 58%; top: 65%;" data-team="B" data-slot="4" data-pos="ATT">
+                <span class="slot-pos-badge">ATT</span>
+                <span class="slot-empty-icon">+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Roster / Available Players Bench -->
+        <div class="roster-card">
+          <div class="roster-header">
+            <div class="roster-title">
+              <span>👥</span> Joueurs Disponibles
+            </div>
+            <span class="roster-count" id="benchCountBadge">10 Joueurs</span>
+          </div>
+
+          <div class="roster-list" id="benchList">
+            <!-- Bench Player items injected here -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 2: PRONOSTICS
+         ========================================== -->
+    <div id="viewPronos" class="view-panel">
+      <div class="pronos-layout">
+
+        <!-- Formulaire de Pronostic -->
+        <div class="prono-form-card">
+          <h3 style="font-family:'Space Grotesk', sans-serif; font-size: 1.3rem;">Placer un Pronostic</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Les cotes évoluent dynamiquement selon les notes des équipes sur le terrain !
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">Votre Prénom / Pseudo</label>
+            <input type="text" class="input-field" id="pronoAuthorInput" placeholder="Ex: Bastien, Théo...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Issue du Match (1 N 2)</label>
+            <div class="odds-grid">
+              <button type="button" class="odd-btn selected" id="oddBtnA" onclick="selectOdd('A')">
+                <span class="odd-label">Équipe A</span>
+                <span class="odd-value" id="oddValA">1.85</span>
+              </button>
+              <button type="button" class="odd-btn" id="oddBtnDraw" onclick="selectOdd('N')">
+                <span class="odd-label">Match Nul</span>
+                <span class="odd-value" id="oddValDraw">3.40</span>
+              </button>
+              <button type="button" class="odd-btn" id="oddBtnB" onclick="selectOdd('B')">
+                <span class="odd-label">Équipe B</span>
+                <span class="odd-value" id="oddValB">2.10</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Score Exact Prédit</label>
+            <div class="score-exact-wrap">
+              <input type="number" min="0" max="30" class="input-field score-input" id="pronoScoreA" value="7">
+              <span style="font-weight: 800; font-size: 1.2rem;">-</span>
+              <input type="number" min="0" max="30" class="input-field score-input" id="pronoScoreB" value="5">
+            </div>
+          </div>
+
+          <button class="btn btn-green" style="width: 100%; justify-content: center;" onclick="submitPrediction()">
+            <span>🎯</span> Enregistrer mon Pronostic
+          </button>
+        </div>
+
+        <!-- Liste des Pronostics Enregistrés -->
+        <div class="pronos-feed-card">
+          <div class="roster-header">
+            <h3 style="font-family:'Space Grotesk', sans-serif; font-size: 1.25rem;">Pronostics Enregistrés</h3>
+            <span class="roster-count" id="pronoCountBadge">0 Pronos</span>
+          </div>
+
+          <div class="feed-list" id="pronosFeedList">
+            <!-- Pronos list items -->
+            <div style="color: var(--text-muted); text-align: center; padding: 40px 0;">
+              Aucun pronostic placé pour le moment. Soyez le premier !
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 3: HISTORIQUE DES MATCHS
+         ========================================== -->
+    <div id="viewHistory" class="view-panel">
+      <div class="history-container" id="historyContainer">
+        <!-- Match history cards injected here -->
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 4: GESTION DES JOUEURS & NOTES
+         ========================================== -->
+    <div id="viewPlayers" class="view-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h2 style="font-family:'Space Grotesk', sans-serif; font-size: 1.5rem;">Fiches & Notes des Joueurs</h2>
+          <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Seul l'administrateur connecté peut modifier les notes et caractéristiques des joueurs.
+          </p>
+        </div>
+        <div id="adminActionButtons">
+          <!-- Button added if admin -->
+        </div>
+      </div>
+
+      <div class="players-admin-grid" id="playersAdminGrid">
+        <!-- Player edit cards injected here -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: ADMIN LOGIN -->
+  <div class="modal" id="adminModal">
+    <div class="modal-backdrop" onclick="toggleAdminAuthModal()"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="toggleAdminAuthModal()">✕</button>
+      <div style="font-size: 2.2rem; margin-bottom: 8px;">🔐</div>
+      <h3 style="font-family:'Space Grotesk', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 6px;">
+        Accès Administrateur
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+        Entrez le mot de passe pour modifier les notes et statistiques des joueurs.
+      </p>
+
+      <div class="form-group" style="margin-bottom: 18px;">
+        <input type="password" class="input-field" id="adminPasswordInput" placeholder="Mot de passe admin (par défaut : five2026)">
+        <div id="adminErrorMsg" style="color: var(--team-b); font-size: 0.8rem; text-align: left; display: none; margin-top: 4px;">
+          Mot de passe incorrect. Réessayez !
+        </div>
+      </div>
+
+      <button class="btn btn-green" style="width: 100%; justify-content: center;" onclick="submitAdminLogin()">
+        <span>🔓</span> Se Connecter
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: END MATCH & SAVE HISTORY -->
+  <div class="modal" id="endMatchModal">
+    <div class="modal-backdrop" onclick="closeEndMatchModal()"></div>
+    <div class="modal-content" style="max-width: 540px;">
+      <button class="modal-close" onclick="closeEndMatchModal()">✕</button>
+      <div style="font-size: 2.2rem; margin-bottom: 8px;">🏆</div>
+      <h3 style="font-family:'Space Grotesk', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 6px;">
+        Clôturer & Sauvegarder le Match
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">
+        Entrez le résultat final pour enregistrer le match dans l'historique et valider les pronostics !
+      </p>
+
+      <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 20px;">
+        <div>
+          <label style="font-size: 0.75rem; color: var(--team-a); font-weight: 800;">ÉQUIPE A</label>
+          <input type="number" min="0" max="40" class="input-field score-input" id="finalScoreA" value="0" style="font-size: 1.8rem; width: 90px;">
+        </div>
+        <span style="font-family:'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 800;">-</span>
+        <div>
+          <label style="font-size: 0.75rem; color: var(--team-b); font-weight: 800;">ÉQUIPE B</label>
+          <input type="number" min="0" max="40" class="input-field score-input" id="finalScoreB" value="0" style="font-size: 1.8rem; width: 90px;">
+        </div>
+      </div>
+
+      <button class="btn btn-green" style="width: 100%; justify-content: center;" onclick="saveMatchToHistory()">
+        <span>💾</span> Enregistrer le Match
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span>⚽</span>
+      <span>LE FIVE • Manager d'équipe & Pronostics</span>
+    </div>
+    <div style="color: var(--text-muted); font-size: 0.8rem;">
+      Données sauvegardées localement dans votre navigateur
+    </div>
+  </footer>
+
+  <script>
+    // ==================================================================
+    // 1. DATABASE DES JOUEURS & STATS INITIALES
+    // ==================================================================
+    const DEFAULT_PLAYERS = [
+      { id: 'thomas',  name: 'Thomas',  ovr: 84, vit: 86, tir: 85, def: 65, pas: 78, end: 82, pos: 'ATT', photo: 'turkie.jpg' },
+      { id: 'louis',   name: 'Louis',   ovr: 82, vit: 79, tir: 80, def: 74, pas: 85, end: 84, pos: 'MIL', photo: 'lucien.png' },
+      { id: 'axel',    name: 'Axel',    ovr: 83, vit: 81, tir: 72, def: 88, pas: 76, end: 85, pos: 'DEF', photo: 'ficelle.webp' },
+      { id: 'theo',    name: 'Théo',    ovr: 85, vit: 88, tir: 86, def: 62, pas: 80, end: 80, pos: 'ATT', photo: 'rouge_max.jpg' },
+      { id: 'bastien', name: 'Bastien', ovr: 86, vit: 84, tir: 83, def: 80, pas: 88, end: 89, pos: 'MIL', photo: '' },
+      { id: 'thea',    name: 'Théa',    ovr: 84, vit: 85, tir: 79, def: 70, pas: 87, end: 83, pos: 'MIL', photo: '' },
+      { id: 'lucas',   name: 'Lucas',   ovr: 80, vit: 82, tir: 78, def: 68, pas: 77, end: 80, pos: 'ATT', photo: '' },
+      { id: 'martin',  name: 'Martin',  ovr: 81, vit: 75, tir: 65, def: 86, pas: 74, end: 84, pos: 'DEF', photo: '' },
+      { id: 'hugo',    name: 'Hugo',    ovr: 79, vit: 78, tir: 70, def: 82, pas: 75, end: 81, pos: 'DEF', photo: '' },
+      { id: 'nathan',  name: 'Nathan',  ovr: 83, vit: 83, tir: 81, def: 71, pas: 82, end: 85, pos: 'GK',  photo: '' }
+    ];
+
+    let players = JSON.parse(localStorage.getItem('five_players')) || DEFAULT_PLAYERS;
+    let predictions = JSON.parse(localStorage.getItem('five_predictions')) || [];
+    let matchHistory = JSON.parse(localStorage.getItem('five_match_history')) || [];
+    let isAdmin = sessionStorage.getItem('five_is_admin') === 'true';
+
+    // State of Pitch Slots: 5 for Team A (0..4), 5 for Team B (0..4)
+    let teamASlots = [null, null, null, null, null];
+    let teamBSlots = [null, null, null, null, null];
+
+    let currentSelectedPronoOdd = 'A';
+
+    // ==================================================================
+    // 2. AUTHENTICATION (ADMIN)
+    // ==================================================================
+    function updateAdminUI() {
+      const badge = document.getElementById('adminBadge');
+      const lockIcon = document.getElementById('adminLockIcon');
+      const statusText = document.getElementById('adminStatusText');
+      const authBtn = document.getElementById('btnAdminAuth');
+
+      if (isAdmin) {
+        badge.classList.add('logged-in');
+        lockIcon.textContent = '👑';
+        statusText.textContent = 'Admin Connecté (Édition activée)';
+        authBtn.innerHTML = '<span>🚪</span> Déconnexion';
+        authBtn.onclick = logoutAdmin;
+      } else {
+        badge.classList.remove('logged-in');
+        lockIcon.textContent = '🔒';
+        statusText.textContent = 'Visiteur (Notes verrouillées)';
+        authBtn.innerHTML = '<span>🔑</span> Connexion Admin';
+        authBtn.onclick = toggleAdminAuthModal;
+      }
+
+      renderPlayersAdminView();
+    }
+
+    function toggleAdminAuthModal() {
+      const modal = document.getElementById('adminModal');
+      modal.classList.toggle('active');
+      document.getElementById('adminErrorMsg').style.display = 'none';
+      document.getElementById('adminPasswordInput').value = '';
+    }
+
+    function submitAdminLogin() {
+      const pwd = document.getElementById('adminPasswordInput').value.trim();
+      const validPwd = localStorage.getItem('five_admin_pwd') || 'five2026';
+
+      if (pwd === validPwd) {
+        isAdmin = true;
+        sessionStorage.setItem('five_is_admin', 'true');
+        toggleAdminAuthModal();
+        updateAdminUI();
+      } else {
+        document.getElementById('adminErrorMsg').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      sessionStorage.removeItem('five_is_admin');
+      updateAdminUI();
+    }
+
+    // ==================================================================
+    // 3. NAVIGATION VIEW SWITCHER
+    // ==================================================================
+    function switchView(viewName) {
+      const views = ['pitch', 'pronos', 'history', 'players'];
+      views.forEach(v => {
+        document.getElementById('view' + v.charAt(0).toUpperCase() + v.slice(1)).classList.remove('active');
+        document.getElementById('tab' + v.charAt(0).toUpperCase() + v.slice(1) + 'Btn').classList.remove('active');
+      });
+
+      document.getElementById('view' + viewName.charAt(0).toUpperCase() + viewName.slice(1)).classList.add('active');
+      document.getElementById('tab' + viewName.charAt(0).toUpperCase() + viewName.slice(1) + 'Btn').classList.add('active');
+
+      if (viewName === 'pronos') renderPronosList();
+      if (viewName === 'history') renderHistoryView();
+      if (viewName === 'players') renderPlayersAdminView();
+    }
+
+    // ==================================================================
+    // 4. PITCH RENDERING & DRAG AND DROP
+    // ==================================================================
+    let draggedPlayerId = null;
+
+    function renderBench() {
+      const benchList = document.getElementById('benchList');
+      benchList.innerHTML = '';
+
+      // All players currently on pitch
+      const onPitchIds = new Set([...teamASlots.filter(Boolean), ...teamBSlots.filter(Boolean)]);
+      const availablePlayers = players.filter(p => !onPitchIds.has(p.id));
+
+      document.getElementById('benchCountBadge').textContent = `${availablePlayers.length} / ${players.length}`;
+
+      if (availablePlayers.length === 0) {
+        benchList.innerHTML = `
+          <div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:30px 10px;">
+            Tous les joueurs sont placés sur le terrain !
+          </div>
+        `;
+        return;
+      }
+
+      availablePlayers.forEach(p => {
+        const el = document.createElement('div');
+        el.className = 'player-card';
+        el.draggable = true;
+        el.dataset.playerId = p.id;
+
+        const avatarSrc = p.photo || '';
+        const initial = p.name[0];
+
+        el.innerHTML = `
+          <div class="player-card-left">
+            <div class="player-avatar-wrap">
+              ${avatarSrc ? `<img src="${avatarSrc}" class="player-avatar-img" alt="${p.name}">` : `<div style="width:100%;height:100%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${initial}</div>`}
+            </div>
+            <div class="player-info">
+              <h4>${p.name}</h4>
+              <div class="player-sub">
+                <span class="pos-tag">${p.pos}</span>
+                <span>VIT ${p.vit} • TIR ${p.tir} • DEF ${p.def}</span>
+              </div>
+            </div>
+          </div>
+          <div class="player-card-right">
+            <div class="player-ovr-badge">${p.ovr}</div>
+          </div>
+        `;
+
+        el.addEventListener('dragstart', (e) => {
+          draggedPlayerId = p.id;
+          el.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', p.id);
+        });
+
+        el.addEventListener('dragend', () => {
+          el.classList.remove('dragging');
+          draggedPlayerId = null;
+        });
+
+        benchList.appendChild(el);
+      });
+    }
+
+    function renderPitchSlots() {
+      const slots = document.querySelectorAll('.pitch-slot');
+      slots.forEach(slot => {
+        const team = slot.dataset.team;
+        const slotIdx = parseInt(slot.dataset.slot, 10);
+        const playerId = (team === 'A') ? teamASlots[slotIdx] : teamBSlots[slotIdx];
+
+        if (playerId) {
+          const p = players.find(x => x.id === playerId);
+          if (p) {
+            slot.innerHTML = `
+              <div class="slot-player-card">
+                <button class="slot-remove-btn" onclick="removePlayerFromSlot('${team}', ${slotIdx}, event)">✕</button>
+                <div class="slot-player-ovr">${p.ovr}</div>
+                ${p.photo ? `<img src="${p.photo}" class="slot-player-avatar">` : `<div class="slot-player-avatar" style="background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name[0]}</div>`}
+                <div class="slot-player-name">${p.name}</div>
+              </div>
+            `;
+            return;
+          }
+        }
+
+        // Empty state
+        const pos = slot.dataset.pos;
+        slot.innerHTML = `
+          <span class="slot-pos-badge">${pos}</span>
+          <span class="slot-empty-icon">+</span>
+        `;
+      });
+
+      updateTeamBalance();
+    }
+
+    function removePlayerFromSlot(team, slotIdx, e) {
+      if (e) e.stopPropagation();
+      if (team === 'A') teamASlots[slotIdx] = null;
+      else teamBSlots[slotIdx] = null;
+      renderPitchSlots();
+      renderBench();
+    }
+
+    // Attach Drag & Drop listeners on slots
+    function initPitchSlotsEvents() {
+      const slots = document.querySelectorAll('.pitch-slot');
+      slots.forEach(slot => {
+        slot.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        });
+
+        slot.addEventListener('dragleave', () => {
+          slot.classList.remove('drag-over');
+        });
+
+        slot.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const playerId = e.dataTransfer.getData('text/plain') || draggedPlayerId;
+          if (!playerId) return;
+
+          const team = slot.dataset.team;
+          const slotIdx = parseInt(slot.dataset.slot, 10);
+
+          // Remove player from any other slot first
+          teamASlots = teamASlots.map(id => (id === playerId ? null : id));
+          teamBSlots = teamBSlots.map(id => (id === playerId ? null : id));
+
+          // Assign to this slot
+          if (team === 'A') teamASlots[slotIdx] = playerId;
+          else teamBSlots[slotIdx] = playerId;
+
+          renderPitchSlots();
+          renderBench();
+        });
+      });
+    }
+
+    // ==================================================================
+    // 5. BALANCE ENGINE (CALCUL DE L'ÉQUILIBRE)
+    // ==================================================================
+    function calculateTeamAvg(slotArray) {
+      const assigned = slotArray.filter(Boolean).map(id => players.find(p => p.id === id));
+      if (assigned.length === 0) return 0;
+      const sum = assigned.reduce((acc, p) => acc + p.ovr, 0);
+      return Math.round((sum / assigned.length) * 10) / 10;
+    }
+
+    function updateTeamBalance() {
+      const avgA = calculateTeamAvg(teamASlots);
+      const avgB = calculateTeamAvg(teamBSlots);
+
+      document.getElementById('ovrTeamA').textContent = avgA > 0 ? avgA : '--';
+      document.getElementById('ovrTeamB').textContent = avgB > 0 ? avgB : '--';
+
+      const statusEl = document.getElementById('balanceStatusText');
+      const barA = document.getElementById('balanceBarA');
+      const barB = document.getElementById('balanceBarB');
+
+      if (avgA === 0 && avgB === 0) {
+        statusEl.innerHTML = `<span>⏳</span> Placez les joueurs sur le terrain`;
+        barA.style.width = '50%';
+        barB.style.width = '50%';
+        return;
+      }
+
+      if (avgA === 0 || avgB === 0) {
+        statusEl.innerHTML = `<span>⚡</span> En attente des 2 équipes`;
+        barA.style.width = avgA > 0 ? '100%' : '0%';
+        barB.style.width = avgB > 0 ? '100%' : '0%';
+        return;
+      }
+
+      const total = avgA + avgB;
+      const pctA = (avgA / total) * 100;
+      const pctB = (avgB / total) * 100;
+      barA.style.width = pctA + '%';
+      barB.style.width = pctB + '%';
+
+      const diff = Math.abs(Math.round((avgA - avgB) * 10) / 10);
+
+      if (diff <= 1.5) {
+        statusEl.innerHTML = `<span style="color:var(--pitch-green);">🟢 MATCH ULTRA ÉQUILIBRÉ !</span> (Écart: ${diff} pt)`;
+      } else if (diff <= 4.0) {
+        const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
+        statusEl.innerHTML = `<span style="color:var(--gold);">🟡 ÉQUILIBRÉ</span> (Léger avantage ${leader} : +${diff} pts)`;
+      } else if (diff <= 7.0) {
+        const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
+        statusEl.innerHTML = `<span style="color:#ff8a00;">⚠️ DÉSÉQUILIBRÉ</span> (${leader} a l'avantage : +${diff} pts)`;
+      } else {
+        const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
+        statusEl.innerHTML = `<span style="color:var(--team-b);">🚨 TRÈS DÉSÉQUILIBRÉ !</span> (${leader} trop puissante : +${diff} pts)`;
+      }
+
+      // Update Prono odds automatically
+      updateDynamicOdds(avgA, avgB);
+    }
+
+    // ==================================================================
+    // 6. AUTO BALANCE ALGORITHM (COMBINATOIRE EXACTE C(10, 5))
+    // ==================================================================
+    function autoBalanceTeams() {
+      // Pick top 10 available players or current 10 players
+      let pool = players.slice(0, 10);
+
+      // Combinations generator: choose 5 out of 10
+      function getCombinations(arr, k) {
+        if (k === 0) return [[]];
+        if (arr.length === 0) return [];
+        const head = arr[0];
+        const tail = arr.slice(1);
+        const withHead = getCombinations(tail, k - 1).map(c => [head, ...c]);
+        const withoutHead = getCombinations(tail, k);
+        return [...withHead, ...withoutHead];
+      }
+
+      const allCombos = getCombinations(pool, 5);
+      let bestComboA = null;
+      let minDelta = Infinity;
+
+      allCombos.forEach(comboA => {
+        const comboB = pool.filter(p => !comboA.includes(p));
+        const sumA = comboA.reduce((acc, x) => acc + x.ovr, 0);
+        const sumB = comboB.reduce((acc, x) => acc + x.ovr, 0);
+        const delta = Math.abs(sumA - sumB);
+        if (delta < minDelta) {
+          minDelta = delta;
+          bestComboA = comboA;
+        }
+      });
+
+      const bestComboB = pool.filter(p => !bestComboA.includes(p));
+
+      teamASlots = bestComboA.map(p => p.id);
+      teamBSlots = bestComboB.map(p => p.id);
+
+      renderPitchSlots();
+      renderBench();
+    }
+
+    function randomDraftTeams() {
+      const shuffled = [...players.slice(0, 10)].sort(() => Math.random() - 0.5);
+      teamASlots = shuffled.slice(0, 5).map(p => p.id);
+      teamBSlots = shuffled.slice(5, 10).map(p => p.id);
+
+      renderPitchSlots();
+      renderBench();
+    }
+
+    function clearPitch() {
+      teamASlots = [null, null, null, null, null];
+      teamBSlots = [null, null, null, null, null];
+      renderPitchSlots();
+      renderBench();
+    }
+
+    // ==================================================================
+    // 7. PRONOSTICS & ODDS ENGINE
+    // ==================================================================
+    function updateDynamicOdds(avgA, avgB) {
+      let oddA = 2.10;
+      let oddN = 3.40;
+      let oddB = 2.10;
+
+      if (avgA > 0 && avgB > 0) {
+        const diff = avgA - avgB;
+        oddA = Math.max(1.15, Math.round((2.0 - diff * 0.12) * 100) / 100);
+        oddB = Math.max(1.15, Math.round((2.0 + diff * 0.12) * 100) / 100);
+      }
+
+      document.getElementById('oddValA').textContent = oddA.toFixed(2);
+      document.getElementById('oddValDraw').textContent = oddN.toFixed(2);
+      document.getElementById('oddValB').textContent = oddB.toFixed(2);
+    }
+
+    function selectOdd(pick) {
+      currentSelectedPronoOdd = pick;
+      document.getElementById('oddBtnA').classList.toggle('selected', pick === 'A');
+      document.getElementById('oddBtnDraw').classList.toggle('selected', pick === 'N');
+      document.getElementById('oddBtnB').classList.toggle('selected', pick === 'B');
+    }
+
+    function submitPrediction() {
+      const author = document.getElementById('pronoAuthorInput').value.trim();
+      if (!author) {
+        alert('Veuillez entrer votre prénom ou pseudo !');
+        return;
+      }
+
+      const scoreA = parseInt(document.getElementById('pronoScoreA').value, 10) || 0;
+      const scoreB = parseInt(document.getElementById('pronoScoreB').value, 10) || 0;
+
+      const pickNames = { A: 'Victoire Équipe A', N: 'Match Nul', B: 'Victoire Équipe B' };
+
+      const newProno = {
+        id: 'prono_' + Date.now(),
+        author: author,
+        pick: currentSelectedPronoOdd,
+        pickLabel: pickNames[currentSelectedPronoOdd],
+        scoreA: scoreA,
+        scoreB: scoreB,
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      predictions.unshift(newProno);
+      localStorage.setItem('five_predictions', JSON.stringify(predictions));
+
+      document.getElementById('pronoAuthorInput').value = '';
+      renderPronosList();
+      alert(`🎯 Pronostic enregistré pour ${author} !`);
+    }
+
+    function renderPronosList() {
+      const list = document.getElementById('pronosFeedList');
+      document.getElementById('pronoCountBadge').textContent = `${predictions.length} Pronos`;
+
+      if (predictions.length === 0) {
+        list.innerHTML = `
+          <div style="color: var(--text-muted); text-align: center; padding: 40px 0;">
+            Aucun pronostic placé pour le moment.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = predictions.map(p => `
+        <div class="prono-item-card">
+          <div class="prono-user-info">
+            <h4>${p.author}</h4>
+            <span>Score prédit : <strong>${p.scoreA} - ${p.scoreB}</strong> • ${p.date}</span>
+          </div>
+          <div class="prono-pick-badge" style="background: ${p.pick === 'A' ? 'rgba(0,210,255,0.2)' : (p.pick === 'B' ? 'rgba(255,59,92,0.2)' : 'rgba(255,215,0,0.2)')}">
+            ${p.pickLabel}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================================================================
+    // 8. HISTORIQUE DES MATCHS & ENREGISTREMENT
+    // ==================================================================
+    function openEndMatchModal() {
+      document.getElementById('endMatchModal').classList.add('active');
+    }
+
+    function closeEndMatchModal() {
+      document.getElementById('endMatchModal').classList.remove('active');
+    }
+
+    function saveMatchToHistory() {
+      const scoreA = parseInt(document.getElementById('finalScoreA').value, 10) || 0;
+      const scoreB = parseInt(document.getElementById('finalScoreB').value, 10) || 0;
+
+      const teamAPlayers = teamASlots.filter(Boolean).map(id => players.find(p => p.id === id));
+      const teamBPlayers = teamBSlots.filter(Boolean).map(id => players.find(p => p.id === id));
+
+      const matchRecord = {
+        id: 'match_' + Date.now(),
+        date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+        scoreA: scoreA,
+        scoreB: scoreB,
+        teamANames: teamAPlayers.map(p => p.name),
+        teamBNames: teamBPlayers.map(p => p.name),
+        ovrA: calculateTeamAvg(teamASlots),
+        ovrB: calculateTeamAvg(teamBSlots)
+      };
+
+      matchHistory.unshift(matchRecord);
+      localStorage.setItem('five_match_history', JSON.stringify(matchHistory));
+
+      closeEndMatchModal();
+      switchView('history');
+      alert('🏆 Match enregistré dans l\'historique avec succès !');
+    }
+
+    function renderHistoryView() {
+      const container = document.getElementById('historyContainer');
+      if (matchHistory.length === 0) {
+        container.innerHTML = `
+          <div class="history-card" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+            <h3>Aucun match enregistré</h3>
+            <p style="margin-top:6px;">Terminez une partie et cliquez sur « Clôturer & Enregistrer » pour archiver le résultat !</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = matchHistory.map(m => `
+        <div class="history-card">
+          <div class="match-archive-header">
+            <span>📅 Match joué le ${m.date}</span>
+            <span>Moyennes : Équipe A (${m.ovrA}) vs Équipe B (${m.ovrB})</span>
+          </div>
+
+          <div class="match-score-board">
+            <div>
+              <h4 style="color:var(--team-a); font-size:1.1rem; font-family:'Space Grotesk',sans-serif;">ÉQUIPE A</h4>
+            </div>
+            <div class="score-number">${m.scoreA} - ${m.scoreB}</div>
+            <div>
+              <h4 style="color:var(--team-b); font-size:1.1rem; font-family:'Space Grotesk',sans-serif;">ÉQUIPE B</h4>
+            </div>
+          </div>
+
+          <div class="history-teams-detail">
+            <div class="history-team-col">
+              <h5 style="color:var(--team-a);">Compo Équipe A :</h5>
+              <div>${m.teamANames.join(', ') || 'Non renseigné'}</div>
+            </div>
+            <div class="history-team-col">
+              <h5 style="color:var(--team-b);">Compo Équipe B :</h5>
+              <div>${m.teamBNames.join(', ') || 'Non renseigné'}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================================================================
+    // 9. GESTION DES JOUEURS & NOTES (ADMIN)
+    // ==================================================================
+    function renderPlayersAdminView() {
+      const grid = document.getElementById('playersAdminGrid');
+      grid.innerHTML = '';
+
+      players.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'player-edit-card';
+
+        const stats = [
+          { key: 'vit', label: 'VIT' },
+          { key: 'tir', label: 'TIR' },
+          { key: 'pas', label: 'PAS' },
+          { key: 'def', label: 'DEF' },
+          { key: 'end', label: 'END' }
+        ];
+
+        card.innerHTML = `
+          ${!isAdmin ? `
+            <div class="locked-overlay">
+              <span style="font-size:1.5rem;">🔒</span>
+              <span>Notes verrouillées</span>
+              <span style="font-size:0.75rem; opacity:0.8;">Connexion admin requise</span>
+            </div>
+          ` : ''}
+
+          <div class="player-edit-header">
+            <div class="player-avatar-wrap" style="width:50px; height:50px;">
+              ${p.photo ? `<img src="${p.photo}" class="player-avatar-img" alt="${p.name}">` : `<div style="width:100%;height:100%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name[0]}</div>`}
+            </div>
+            <div>
+              <h3 style="font-family:'Space Grotesk',sans-serif; font-size:1.15rem; color:#fff;">${p.name}</h3>
+              <span class="pos-tag">${p.pos}</span>
+            </div>
+            <div class="player-ovr-badge" style="margin-left:auto; font-size:1.3rem;">${p.ovr}</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+            ${stats.map(s => `
+              <div class="edit-stat-row">
+                <span class="stat-label">${s.label}</span>
+                <input type="range" min="40" max="99" value="${p[s.key]}" class="stat-slider" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerStat('${p.id}', '${s.key}', this.value)">
+                <span class="stat-val" id="val_${p.id}_${s.key}">${p[s.key]}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function updatePlayerStat(playerId, statKey, val) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+
+      p[statKey] = parseInt(val, 10);
+      document.getElementById(`val_${playerId}_${statKey}`).textContent = p[statKey];
+
+      // Recalculate OVR (Pondération Five classique)
+      p.ovr = Math.round((p.vit * 0.25) + (p.tir * 0.25) + (p.pas * 0.2) + (p.def * 0.15) + (p.end * 0.15));
+
+      localStorage.setItem('five_players', JSON.stringify(players));
+
+      renderPitchSlots();
+      renderBench();
+      renderPlayersAdminView();
+    }
+
+    // ==================================================================
+    // INITIALIZATION
+    // ==================================================================
+    updateAdminUI();
+    initPitchSlotsEvents();
+    renderBench();
+    renderPitchSlots();
+  </script>
+</body>
+</html>
