@@ -297,7 +297,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 800;
       font-family: 'Space Grotesk', sans-serif;
       margin-top: 2px;
@@ -473,7 +473,6 @@
       user-select: none;
     }
 
-    /* Pitch Turf Stripes & Markings */
     .pitch-canvas-wrap::before {
       content: '';
       position: absolute;
@@ -491,7 +490,6 @@
       pointer-events: none;
     }
 
-    /* Pitch Center Markings */
     .pitch-line-center {
       position: absolute;
       top: 0;
@@ -527,7 +525,6 @@
       pointer-events: none;
     }
 
-    /* Goal Areas */
     .goal-area-left {
       position: absolute;
       top: 50%;
@@ -554,7 +551,6 @@
       pointer-events: none;
     }
 
-    /* Pitch Teams Half Zones */
     .pitch-half {
       position: relative;
       height: 100%;
@@ -591,7 +587,6 @@
       border: 1px solid rgba(255, 59, 92, 0.3);
     }
 
-    /* Slot Positions on Pitch */
     .pitch-slots-layer {
       position: absolute;
       top: 0;
@@ -604,8 +599,8 @@
     .pitch-slot {
       position: absolute;
       transform: translate(-50%, -50%);
-      width: 88px;
-      height: 88px;
+      width: 90px;
+      height: 90px;
       pointer-events: auto;
       border: 2px dashed rgba(255, 255, 255, 0.3);
       border-radius: 50%;
@@ -660,8 +655,8 @@
 
     /* Player Card inside Pitch Slot */
     .slot-player-card {
-      width: 82px;
-      height: 82px;
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
       position: relative;
       display: flex;
@@ -679,8 +674,8 @@
     }
 
     .slot-player-avatar {
-      width: 58px;
-      height: 58px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       object-fit: cover;
       border: 2.5px solid #fff;
@@ -688,28 +683,28 @@
 
     .slot-player-ovr {
       position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 26px;
-      height: 26px;
+      top: -3px;
+      right: -3px;
+      width: 30px;
+      height: 30px;
       background: linear-gradient(135deg, #ffd700, #ff8a00);
       color: #0b0d14;
       border-radius: 50%;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1.5px solid #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
     .slot-player-name {
       position: absolute;
       bottom: -18px;
       white-space: nowrap;
-      background: rgba(8, 12, 22, 0.92);
+      background: rgba(8, 12, 22, 0.95);
       border: 1px solid rgba(255, 255, 255, 0.15);
       padding: 2px 8px;
       border-radius: 8px;
@@ -723,14 +718,14 @@
       position: absolute;
       top: -2px;
       left: -2px;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       background: rgba(255, 59, 92, 0.9);
       border: 1.5px solid #fff;
       color: #fff;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -798,7 +793,6 @@
       border-radius: 10px;
     }
 
-    /* Mini Player Card for Roster & Bench */
     .player-card {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
       border: 1px solid var(--border);
@@ -837,7 +831,7 @@
       height: 44px;
       border-radius: 50%;
       overflow: hidden;
-      border: 2px solid var(--player-color, var(--pitch-green));
+      border: 2px solid var(--pitch-green);
       flex-shrink: 0;
     }
 
@@ -872,6 +866,13 @@
       color: var(--gold);
     }
 
+    .rank-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--pitch-green);
+    }
+
     .player-card-right {
       display: flex;
       align-items: center;
@@ -887,28 +888,8 @@
       border: 1px solid rgba(255, 215, 0, 0.3);
       padding: 4px 10px;
       border-radius: 10px;
-      min-width: 42px;
+      min-width: 44px;
       text-align: center;
-    }
-
-    .btn-quick-assign {
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      color: var(--text-muted);
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-
-    .btn-quick-assign:hover {
-      background: var(--pitch-green);
-      color: #000;
     }
 
     /* ===================================================
@@ -969,7 +950,6 @@
       border-color: var(--pitch-green);
     }
 
-    /* Odds Button Grid (1, N, 2) */
     .odds-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -1013,7 +993,6 @@
       color: var(--gold);
     }
 
-    /* Score Exact Input */
     .score-exact-wrap {
       display: flex;
       align-items: center;
@@ -1029,7 +1008,6 @@
       padding: 10px;
     }
 
-    /* Pronos Feed */
     .pronos-feed-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -1164,8 +1142,8 @@
        =================================================== */
     .players-admin-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
     }
 
     .player-edit-card {
@@ -1184,35 +1162,29 @@
     .player-edit-header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
     }
 
-    .edit-stat-row {
-      display: flex;
+    .note-display-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gold);
+      background: rgba(255, 215, 0, 0.15);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      padding: 4px 12px;
+      border-radius: 12px;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 0.85rem;
-    }
-
-    .stat-label {
-      width: 45px;
-      font-weight: 700;
-      color: var(--text-muted);
+      gap: 4px;
     }
 
     .stat-slider {
-      flex: 1;
+      width: 100%;
       accent-color: var(--pitch-green);
       cursor: pointer;
-    }
-
-    .stat-val {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 800;
-      width: 30px;
-      text-align: right;
-      color: #fff;
+      height: 8px;
     }
 
     .locked-overlay {
@@ -1221,7 +1193,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(6, 9, 17, 0.75);
+      background: rgba(6, 9, 17, 0.78);
       backdrop-filter: blur(3px);
       border-radius: 20px;
       display: flex;
@@ -1321,7 +1293,7 @@
         <div class="brand-logo">⚽</div>
         <div>
           <div class="brand-title">LE FIVE • ARENA</div>
-          <div style="font-size: 0.78rem; color: var(--text-muted);">Gestion d'équipe 5v5 & Pronostics Officiels</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">Gestion 5v5, Équilibrage & Notes de 1 à 10</div>
         </div>
       </div>
 
@@ -1375,7 +1347,7 @@
             <div class="team-meta">
               <h3>ÉQUIPE BLANCHE</h3>
               <div class="team-rating-pill rating-a">
-                <span id="ovrTeamA">--</span> <span style="font-size:0.75rem; color:var(--text-muted);">OVR MOY</span>
+                <span id="ovrTeamA">--</span> <span style="font-size:0.75rem; color:var(--text-muted);">MOY / 10</span>
               </div>
             </div>
           </div>
@@ -1398,7 +1370,7 @@
             <div class="team-meta">
               <h3>ÉQUIPE NOIRE</h3>
               <div class="team-rating-pill rating-b">
-                <span id="ovrTeamB">--</span> <span style="font-size:0.75rem; color:var(--text-muted);">OVR MOY</span>
+                <span id="ovrTeamB">--</span> <span style="font-size:0.75rem; color:var(--text-muted);">MOY / 10</span>
               </div>
             </div>
           </div>
@@ -1580,9 +1552,6 @@
 
           <div class="feed-list" id="pronosFeedList">
             <!-- Pronos list items -->
-            <div style="color: var(--text-muted); text-align: center; padding: 40px 0;">
-              Aucun pronostic placé pour le moment. Soyez le premier !
-            </div>
           </div>
         </div>
 
@@ -1606,11 +1575,11 @@
         <div>
           <h2 style="font-family:'Space Grotesk', sans-serif; font-size: 1.5rem;">Fiches & Notes des Joueurs</h2>
           <p style="font-size: 0.88rem; color: var(--text-muted);">
-            Seul l'administrateur connecté peut modifier les notes et caractéristiques des joueurs.
+            Noms, classements et notes (de 1 à 10) modifiables avec le mot de passe administrateur.
           </p>
         </div>
-        <div id="adminActionButtons">
-          <!-- Button added if admin -->
+        <div id="adminActionButtons" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <!-- Boutons dynamiques générés selon mode admin -->
         </div>
       </div>
 
@@ -1631,11 +1600,11 @@
         Accès Administrateur
       </h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
-        Entrez le mot de passe pour modifier les notes et statistiques des joueurs.
+        Entrez le mot de passe pour modifier les noms, classements et notes uniques des joueurs.
       </p>
 
       <div class="form-group" style="margin-bottom: 18px;">
-        <input type="password" class="input-field" id="adminPasswordInput" placeholder="Mot de passe admin (par défaut : five2026)">
+        <input type="password" class="input-field" id="adminPasswordInput" placeholder="Mot de passe (par défaut : five2026)">
         <div id="adminErrorMsg" style="color: var(--team-b); font-size: 0.8rem; text-align: left; display: none; margin-top: 4px;">
           Mot de passe incorrect. Réessayez !
         </div>
@@ -1657,7 +1626,7 @@
         Clôturer & Sauvegarder le Match
       </h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">
-        Entrez le résultat final pour enregistrer le match dans l'historique et valider les pronostics !
+        Entrez le résultat final pour archiver le match et valider les pronostics !
       </p>
 
       <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 20px;">
@@ -1690,22 +1659,31 @@
 
   <script>
     // ==================================================================
-    // 1. DATABASE DES JOUEURS & STATS INITIALES
+    // 1. DATABASE DES JOUEURS : NOTE UNIQUE DE 1 À 10 & CLASSEMENTS
     // ==================================================================
     const DEFAULT_PLAYERS = [
-      { id: 'thomas',  name: 'Thomas',  ovr: 84, vit: 86, tir: 85, def: 65, pas: 78, end: 82, pos: 'ATT', photo: 'turkie.jpg' },
-      { id: 'louis',   name: 'Louis',   ovr: 82, vit: 79, tir: 80, def: 74, pas: 85, end: 84, pos: 'MIL', photo: 'lucien.png' },
-      { id: 'axel',    name: 'Axel',    ovr: 83, vit: 81, tir: 72, def: 88, pas: 76, end: 85, pos: 'DEF', photo: 'ficelle.webp' },
-      { id: 'theo',    name: 'Théo',    ovr: 85, vit: 88, tir: 86, def: 62, pas: 80, end: 80, pos: 'ATT', photo: 'rouge_max.jpg' },
-      { id: 'bastien', name: 'Bastien', ovr: 86, vit: 84, tir: 83, def: 80, pas: 88, end: 89, pos: 'MIL', photo: '' },
-      { id: 'thea',    name: 'Théa',    ovr: 84, vit: 85, tir: 79, def: 70, pas: 87, end: 83, pos: 'MIL', photo: '' },
-      { id: 'lucas',   name: 'Lucas',   ovr: 80, vit: 82, tir: 78, def: 68, pas: 77, end: 80, pos: 'ATT', photo: '' },
-      { id: 'martin',  name: 'Martin',  ovr: 81, vit: 75, tir: 65, def: 86, pas: 74, end: 84, pos: 'DEF', photo: '' },
-      { id: 'hugo',    name: 'Hugo',    ovr: 79, vit: 78, tir: 70, def: 82, pas: 75, end: 81, pos: 'DEF', photo: '' },
-      { id: 'nathan',  name: 'Nathan',  ovr: 83, vit: 83, tir: 81, def: 71, pas: 82, end: 85, pos: 'GK',  photo: '' }
+      { id: 'bastien', name: 'Bastien', note: 8.5, rank: 1, pos: 'MIL', photo: '' },
+      { id: 'theo',    name: 'Théo',    note: 8.5, rank: 2, pos: 'ATT', photo: 'rouge_max.jpg' },
+      { id: 'thomas',  name: 'Thomas',  note: 8.0, rank: 3, pos: 'ATT', photo: 'turkie.jpg' },
+      { id: 'thea',    name: 'Théa',    note: 8.0, rank: 4, pos: 'MIL', photo: '' },
+      { id: 'axel',    name: 'Axel',    note: 7.5, rank: 5, pos: 'DEF', photo: 'ficelle.webp' },
+      { id: 'louis',   name: 'Louis',   note: 7.5, rank: 6, pos: 'MIL', photo: 'lucien.png' },
+      { id: 'nathan',  name: 'Nathan',  note: 7.0, rank: 7, pos: 'GK',  photo: '' },
+      { id: 'martin',  name: 'Martin',  note: 7.0, rank: 8, pos: 'DEF', photo: '' },
+      { id: 'lucas',   name: 'Lucas',   note: 6.5, rank: 9, pos: 'ATT', photo: '' },
+      { id: 'hugo',    name: 'Hugo',    note: 6.5, rank: 10, pos: 'DEF', photo: '' }
     ];
 
-    let players = JSON.parse(localStorage.getItem('five_players')) || DEFAULT_PLAYERS;
+    let storedPlayers = localStorage.getItem('five_players_v2');
+    let players = [];
+    if (storedPlayers) {
+      try { players = JSON.parse(storedPlayers); } catch(e) {}
+    }
+    if (!players || players.length === 0) {
+      players = DEFAULT_PLAYERS;
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+    }
+
     let predictions = JSON.parse(localStorage.getItem('five_predictions')) || [];
     let matchHistory = JSON.parse(localStorage.getItem('five_match_history')) || [];
     let isAdmin = sessionStorage.getItem('five_is_admin') === 'true';
@@ -1796,9 +1774,11 @@
       const benchList = document.getElementById('benchList');
       benchList.innerHTML = '';
 
-      // All players currently on pitch
       const onPitchIds = new Set([...teamASlots.filter(Boolean), ...teamBSlots.filter(Boolean)]);
       const availablePlayers = players.filter(p => !onPitchIds.has(p.id));
+
+      // Sort available players by rank
+      availablePlayers.sort((a, b) => (a.rank || 99) - (b.rank || 99));
 
       document.getElementById('benchCountBadge').textContent = `${availablePlayers.length} / ${players.length}`;
 
@@ -1818,7 +1798,7 @@
         el.dataset.playerId = p.id;
 
         const avatarSrc = p.photo || '';
-        const initial = p.name[0];
+        const initial = p.name ? p.name[0] : '?';
 
         el.innerHTML = `
           <div class="player-card-left">
@@ -1828,13 +1808,13 @@
             <div class="player-info">
               <h4>${p.name}</h4>
               <div class="player-sub">
-                <span class="pos-tag">${p.pos}</span>
-                <span>VIT ${p.vit} • TIR ${p.tir} • DEF ${p.def}</span>
+                <span class="rank-tag">#${p.rank || '-'}</span>
+                <span class="pos-tag">${p.pos || 'MIL'}</span>
               </div>
             </div>
           </div>
           <div class="player-card-right">
-            <div class="player-ovr-badge">${p.ovr}</div>
+            <div class="player-ovr-badge">${(p.note || 5).toFixed(1)}<span style="font-size:0.68rem; color:var(--text-muted);">/10</span></div>
           </div>
         `;
 
@@ -1866,8 +1846,8 @@
             slot.innerHTML = `
               <div class="slot-player-card">
                 <button class="slot-remove-btn" onclick="removePlayerFromSlot('${team}', ${slotIdx}, event)">✕</button>
-                <div class="slot-player-ovr">${p.ovr}</div>
-                ${p.photo ? `<img src="${p.photo}" class="slot-player-avatar">` : `<div class="slot-player-avatar" style="background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name[0]}</div>`}
+                <div class="slot-player-ovr">${(p.note || 5).toFixed(1)}</div>
+                ${p.photo ? `<img src="${p.photo}" class="slot-player-avatar">` : `<div class="slot-player-avatar" style="background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name ? p.name[0] : '?'}</div>`}
                 <div class="slot-player-name">${p.name}</div>
               </div>
             `;
@@ -1875,7 +1855,6 @@
           }
         }
 
-        // Empty state
         const pos = slot.dataset.pos;
         slot.innerHTML = `
           <span class="slot-pos-badge">${pos}</span>
@@ -1894,7 +1873,6 @@
       renderBench();
     }
 
-    // Attach Drag & Drop listeners on slots
     function initPitchSlotsEvents() {
       const slots = document.querySelectorAll('.pitch-slot');
       slots.forEach(slot => {
@@ -1916,11 +1894,9 @@
           const team = slot.dataset.team;
           const slotIdx = parseInt(slot.dataset.slot, 10);
 
-          // Remove player from any other slot first
           teamASlots = teamASlots.map(id => (id === playerId ? null : id));
           teamBSlots = teamBSlots.map(id => (id === playerId ? null : id));
 
-          // Assign to this slot
           if (team === 'A') teamASlots[slotIdx] = playerId;
           else teamBSlots[slotIdx] = playerId;
 
@@ -1931,12 +1907,12 @@
     }
 
     // ==================================================================
-    // 5. BALANCE ENGINE (CALCUL DE L'ÉQUILIBRE)
+    // 5. BALANCE ENGINE (NOTE UNIQUE DE 1 À 10)
     // ==================================================================
     function calculateTeamAvg(slotArray) {
       const assigned = slotArray.filter(Boolean).map(id => players.find(p => p.id === id));
       if (assigned.length === 0) return 0;
-      const sum = assigned.reduce((acc, p) => acc + p.ovr, 0);
+      const sum = assigned.reduce((acc, p) => acc + (p.note || 5), 0);
       return Math.round((sum / assigned.length) * 10) / 10;
     }
 
@@ -1944,8 +1920,8 @@
       const avgA = calculateTeamAvg(teamASlots);
       const avgB = calculateTeamAvg(teamBSlots);
 
-      document.getElementById('ovrTeamA').textContent = avgA > 0 ? avgA : '--';
-      document.getElementById('ovrTeamB').textContent = avgB > 0 ? avgB : '--';
+      document.getElementById('ovrTeamA').textContent = avgA > 0 ? (avgA.toFixed(1) + '/10') : '--';
+      document.getElementById('ovrTeamB').textContent = avgB > 0 ? (avgB.toFixed(1) + '/10') : '--';
 
       const statusEl = document.getElementById('balanceStatusText');
       const barA = document.getElementById('balanceBarA');
@@ -1972,32 +1948,27 @@
       barB.style.width = pctB + '%';
 
       const diff = Math.abs(Math.round((avgA - avgB) * 10) / 10);
+      const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
 
-      if (diff <= 1.5) {
-        statusEl.innerHTML = `<span style="color:var(--pitch-green);">🟢 MATCH ULTRA ÉQUILIBRÉ !</span> (Écart: ${diff} pt)`;
-      } else if (diff <= 4.0) {
-        const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
-        statusEl.innerHTML = `<span style="color:var(--gold);">🟡 ÉQUILIBRÉ</span> (Léger avantage ${leader} : +${diff} pts)`;
-      } else if (diff <= 7.0) {
-        const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
-        statusEl.innerHTML = `<span style="color:#ff8a00;">⚠️ DÉSÉQUILIBRÉ</span> (${leader} a l'avantage : +${diff} pts)`;
+      if (diff <= 0.3) {
+        statusEl.innerHTML = `<span style="color:var(--pitch-green);">🟢 MATCH PARFAITEMENT ÉQUILIBRÉ !</span> (Écart: ${diff.toFixed(1)} pt)`;
+      } else if (diff <= 0.8) {
+        statusEl.innerHTML = `<span style="color:var(--gold);">🟡 BON ÉQUILIBRE</span> (Léger avantage ${leader} : +${diff.toFixed(1)} pt)`;
+      } else if (diff <= 1.4) {
+        statusEl.innerHTML = `<span style="color:#ff8a00;">⚠️ DÉSÉQUILIBRÉ</span> (${leader} a l'avantage : +${diff.toFixed(1)} pt)`;
       } else {
-        const leader = avgA > avgB ? 'Équipe A' : 'Équipe B';
-        statusEl.innerHTML = `<span style="color:var(--team-b);">🚨 TRÈS DÉSÉQUILIBRÉ !</span> (${leader} trop puissante : +${diff} pts)`;
+        statusEl.innerHTML = `<span style="color:var(--team-b);">🚨 TRÈS DÉSÉQUILIBRÉ !</span> (${leader} trop puissante : +${diff.toFixed(1)} pt)`;
       }
 
-      // Update Prono odds automatically
       updateDynamicOdds(avgA, avgB);
     }
 
     // ==================================================================
-    // 6. AUTO BALANCE ALGORITHM (COMBINATOIRE EXACTE C(10, 5))
+    // 6. AUTO BALANCE (OPTIMISATION SUR LA NOTE DE 1 À 10)
     // ==================================================================
     function autoBalanceTeams() {
-      // Pick top 10 available players or current 10 players
       let pool = players.slice(0, 10);
 
-      // Combinations generator: choose 5 out of 10
       function getCombinations(arr, k) {
         if (k === 0) return [[]];
         if (arr.length === 0) return [];
@@ -2014,8 +1985,8 @@
 
       allCombos.forEach(comboA => {
         const comboB = pool.filter(p => !comboA.includes(p));
-        const sumA = comboA.reduce((acc, x) => acc + x.ovr, 0);
-        const sumB = comboB.reduce((acc, x) => acc + x.ovr, 0);
+        const sumA = comboA.reduce((acc, x) => acc + (x.note || 5), 0);
+        const sumB = comboB.reduce((acc, x) => acc + (x.note || 5), 0);
         const delta = Math.abs(sumA - sumB);
         if (delta < minDelta) {
           minDelta = delta;
@@ -2057,9 +2028,9 @@
       let oddB = 2.10;
 
       if (avgA > 0 && avgB > 0) {
-        const diff = avgA - avgB;
-        oddA = Math.max(1.15, Math.round((2.0 - diff * 0.12) * 100) / 100);
-        oddB = Math.max(1.15, Math.round((2.0 + diff * 0.12) * 100) / 100);
+        const diff = (avgA - avgB);
+        oddA = Math.max(1.15, Math.round((2.0 - diff * 0.7) * 100) / 100);
+        oddB = Math.max(1.15, Math.round((2.0 + diff * 0.7) * 100) / 100);
       }
 
       document.getElementById('oddValA').textContent = oddA.toFixed(2);
@@ -2183,7 +2154,7 @@
         <div class="history-card">
           <div class="match-archive-header">
             <span>📅 Match joué le ${m.date}</span>
-            <span>Moyennes : Équipe A (${m.ovrA}) vs Équipe B (${m.ovrB})</span>
+            <span>Moyennes : Équipe A (${m.ovrA}/10) vs Équipe B (${m.ovrB}/10)</span>
           </div>
 
           <div class="match-score-board">
@@ -2211,79 +2182,200 @@
     }
 
     // ==================================================================
-    // 9. GESTION DES JOUEURS & NOTES (ADMIN)
+    // 9. GESTION DES JOUEURS : NOMS, CLASSEMENTS & NOTE UNIQUE (1 À 10)
     // ==================================================================
     function renderPlayersAdminView() {
       const grid = document.getElementById('playersAdminGrid');
+      const actionButtons = document.getElementById('adminActionButtons');
       grid.innerHTML = '';
+
+      if (isAdmin) {
+        actionButtons.innerHTML = `
+          <button class="btn btn-green" onclick="addNewPlayer()">
+            <span>➕</span> Ajouter un Joueur
+          </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('rank')">
+            <span>🔢</span> Trier par Classement
+          </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('note')">
+            <span>⭐</span> Trier par Note
+          </button>
+        `;
+      } else {
+        actionButtons.innerHTML = `
+          <button class="btn btn-secondary" onclick="sortPlayersBy('rank')">
+            <span>🔢</span> Trier par Classement
+          </button>
+          <button class="btn btn-secondary" onclick="sortPlayersBy('note')">
+            <span>⭐</span> Trier par Note
+          </button>
+        `;
+      }
 
       players.forEach(p => {
         const card = document.createElement('div');
         card.className = 'player-edit-card';
 
-        const stats = [
-          { key: 'vit', label: 'VIT' },
-          { key: 'tir', label: 'TIR' },
-          { key: 'pas', label: 'PAS' },
-          { key: 'def', label: 'DEF' },
-          { key: 'end', label: 'END' }
-        ];
-
         card.innerHTML = `
           ${!isAdmin ? `
             <div class="locked-overlay">
               <span style="font-size:1.5rem;">🔒</span>
-              <span>Notes verrouillées</span>
-              <span style="font-size:0.75rem; opacity:0.8;">Connexion admin requise</span>
+              <span>Modifications verrouillées</span>
+              <span style="font-size:0.75rem; opacity:0.8;">Connexion Admin requise pour éditer nom, classement et note</span>
             </div>
           ` : ''}
 
           <div class="player-edit-header">
-            <div class="player-avatar-wrap" style="width:50px; height:50px;">
-              ${p.photo ? `<img src="${p.photo}" class="player-avatar-img" alt="${p.name}">` : `<div style="width:100%;height:100%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name[0]}</div>`}
+            <div class="player-avatar-wrap" style="width:52px; height:52px;">
+              ${p.photo ? `<img src="${p.photo}" class="player-avatar-img" alt="${p.name}">` : `<div style="width:100%;height:100%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;">${p.name ? p.name[0] : '?'}</div>`}
             </div>
-            <div>
-              <h3 style="font-family:'Space Grotesk',sans-serif; font-size:1.15rem; color:#fff;">${p.name}</h3>
-              <span class="pos-tag">${p.pos}</span>
+            <div style="flex:1;">
+              <span class="rank-tag">Classement : #${p.rank || '-'}</span>
+              <div style="font-size:1.1rem; font-weight:800; font-family:'Space Grotesk',sans-serif; color:#fff;">${p.name}</div>
             </div>
-            <div class="player-ovr-badge" style="margin-left:auto; font-size:1.3rem;">${p.ovr}</div>
+            <div class="note-display-badge" id="badgeNote_${p.id}">
+              ${(p.note || 5).toFixed(1)}<span style="font-size:0.75rem; color:var(--text-muted);">/10</span>
+            </div>
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
-            ${stats.map(s => `
-              <div class="edit-stat-row">
-                <span class="stat-label">${s.label}</span>
-                <input type="range" min="40" max="99" value="${p[s.key]}" class="stat-slider" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerStat('${p.id}', '${s.key}', this.value)">
-                <span class="stat-val" id="val_${p.id}_${s.key}">${p[s.key]}</span>
-              </div>
-            `).join('')}
+          <!-- Formulaire d'édition du Nom -->
+          <div class="form-group">
+            <label class="form-label">Nom du Joueur</label>
+            <input type="text" class="input-field" value="${p.name}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerName('${p.id}', this.value)">
           </div>
+
+          <!-- Ligne Classement & Poste -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label">Classement (#)</label>
+              <input type="number" min="1" max="99" class="input-field" value="${p.rank || 1}" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerRank('${p.id}', this.value)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Poste</label>
+              <select class="input-field" ${!isAdmin ? 'disabled' : ''} onchange="updatePlayerPos('${p.id}', this.value)">
+                <option value="ATT" ${p.pos === 'ATT' ? 'selected' : ''}>ATT (Buteur)</option>
+                <option value="MIL" ${p.pos === 'MIL' ? 'selected' : ''}>MIL (Milieu)</option>
+                <option value="DEF" ${p.pos === 'DEF' ? 'selected' : ''}>DEF (Défenseur)</option>
+                <option value="GK"  ${p.pos === 'GK'  ? 'selected' : ''}>GK (Gardien)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Note Unique de 1 à 10 -->
+          <div class="form-group" style="margin-top:4px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <label class="form-label">Note Unique (1 à 10)</label>
+              <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; color:var(--gold); font-size:1.1rem;" id="noteVal_${p.id}">
+                ${(p.note || 5).toFixed(1)} / 10
+              </span>
+            </div>
+            <input type="range" min="1" max="10" step="0.5" value="${p.note || 5}" class="stat-slider" ${!isAdmin ? 'disabled' : ''} oninput="updatePlayerNote('${p.id}', this.value)">
+          </div>
+
+          ${isAdmin ? `
+            <button class="btn btn-secondary" style="border-color:rgba(255,59,92,0.3); color:var(--team-b); margin-top:6px; padding:6px 12px; font-size:0.8rem; justify-content:center;" onclick="deletePlayer('${p.id}')">
+              <span>🗑️</span> Supprimer ce joueur
+            </button>
+          ` : ''}
         `;
 
         grid.appendChild(card);
       });
     }
 
-    function updatePlayerStat(playerId, statKey, val) {
+    function updatePlayerName(playerId, newName) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      p.name = newName.trim() || p.name;
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      renderPitchSlots();
+      renderBench();
+    }
+
+    function updatePlayerRank(playerId, newRank) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      p.rank = parseInt(newRank, 10) || p.rank;
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      renderPitchSlots();
+      renderBench();
+    }
+
+    function updatePlayerPos(playerId, newPos) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      p.pos = newPos;
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      renderPitchSlots();
+      renderBench();
+    }
+
+    function updatePlayerNote(playerId, newNote) {
       if (!isAdmin) return;
       const p = players.find(x => x.id === playerId);
       if (!p) return;
 
-      p[statKey] = parseInt(val, 10);
-      document.getElementById(`val_${playerId}_${statKey}`).textContent = p[statKey];
+      p.note = parseFloat(newNote);
+      const displayEl = document.getElementById('noteVal_' + playerId);
+      if (displayEl) displayEl.textContent = p.note.toFixed(1) + ' / 10';
+      const badgeEl = document.getElementById('badgeNote_' + playerId);
+      if (badgeEl) badgeEl.innerHTML = p.note.toFixed(1) + '<span style="font-size:0.75rem; color:var(--text-muted);">/10</span>';
 
-      // Recalculate OVR (Pondération Five classique)
-      p.ovr = Math.round((p.vit * 0.25) + (p.tir * 0.25) + (p.pas * 0.2) + (p.def * 0.15) + (p.end * 0.15));
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      renderPitchSlots();
+      renderBench();
+    }
 
-      localStorage.setItem('five_players', JSON.stringify(players));
+    function sortPlayersBy(criterion) {
+      if (criterion === 'rank') {
+        players.sort((a, b) => (a.rank || 99) - (b.rank || 99));
+      } else if (criterion === 'note') {
+        players.sort((a, b) => (b.note || 0) - (a.note || 0));
+      }
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      renderPlayersAdminView();
+      renderBench();
+    }
 
+    function addNewPlayer() {
+      if (!isAdmin) return;
+      const name = prompt('Nom du nouveau joueur :');
+      if (!name || !name.trim()) return;
+
+      const newPlayer = {
+        id: 'p_' + Date.now(),
+        name: name.trim(),
+        note: 7.0,
+        rank: players.length + 1,
+        pos: 'MIL',
+        photo: ''
+      };
+      players.push(newPlayer);
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
+      renderPlayersAdminView();
+      renderBench();
+    }
+
+    function deletePlayer(playerId) {
+      if (!isAdmin) return;
+      const p = players.find(x => x.id === playerId);
+      if (!p) return;
+      if (!confirm(`Voulez-vous vraiment supprimer ${p.name} ?`)) return;
+
+      players = players.filter(x => x.id !== playerId);
+      teamASlots = teamASlots.map(id => id === playerId ? null : id);
+      teamBSlots = teamBSlots.map(id => id === playerId ? null : id);
+      localStorage.setItem('five_players_v2', JSON.stringify(players));
       renderPitchSlots();
       renderBench();
       renderPlayersAdminView();
     }
 
     // ==================================================================
-    // INITIALIZATION
+    // INITIALISATION
     // ==================================================================
     updateAdminUI();
     initPitchSlotsEvents();
